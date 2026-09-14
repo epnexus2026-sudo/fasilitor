@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>html{color-scheme:light}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>EPNEXUS Fasilitatör Sertifikası</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+<style>
+:root{
+  --ground:#EFF1EE; --surface:#FFFFFF; --surface-2:#F7F8F6;
+  --ink:#14201D; --ink-2:#3B4A46; --muted:#697773;
+  --line:#D9DEDA; --line-soft:#E7EBE7;
+  --k:#0D6157; --k-soft:#DCEBE7; --k-ink:#094840;
+  --gold:#A8751B; --gold-soft:#F5EAD3; --gold-bright:#C9A227;
+  --shadow:0 1px 2px rgba(20,32,29,.06), 0 10px 30px -14px rgba(20,32,29,.22);
+  --f-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --f-body:"Manrope","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E1614; --surface:#16211E; --surface-2:#1B2825;
+    --ink:#E8EDEA; --ink-2:#B9C5C1; --muted:#8A9995;
+    --line:#2A3A36; --line-soft:#233130;
+    --k:#4FBFA9; --k-soft:#16342E; --k-ink:#8FDCCB;
+    --gold:#D9A94A; --gold-soft:#332812; --gold-bright:#D9A94A;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 32px -16px rgba(0,0,0,.75);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E1614; --surface:#16211E; --surface-2:#1B2825;
+  --ink:#E8EDEA; --ink-2:#B9C5C1; --muted:#8A9995;
+  --line:#2A3A36; --line-soft:#233130;
+  --k:#4FBFA9; --k-soft:#16342E; --k-ink:#8FDCCB;
+  --gold:#D9A94A; --gold-soft:#332812; --gold-bright:#D9A94A;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 32px -16px rgba(0,0,0,.75);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+h1,h2,h3{font-family:var(--f-display);margin:0;font-weight:600;text-wrap:balance}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--k);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:26px 56px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:20px}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.head h1{font-size:26px;margin-top:6px}
+.head p{margin:6px 0 0;color:var(--ink-2);max-width:62ch;font-size:14px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:22px}
+.fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.fields{grid-template-columns:1fr}}
+label{display:block;font-size:11.5px;font-weight:700;color:var(--ink-2);margin-bottom:5px;
+  letter-spacing:.03em;text-transform:uppercase}
+input,select{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.row2{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px;
+  border-top:1px solid var(--line-soft);padding-top:14px}
+.chk{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600}
+.chk input{width:16px;height:16px;accent-color:var(--k)}
+.btn{display:inline-flex;align-items:center;gap:7px;background:var(--k);color:#fff;padding:9px 16px;
+  border-radius:9px;font-weight:700;font-size:14px}
+:root[data-theme="dark"] .btn{color:#08201C}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{color:#08201C}}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost[aria-pressed="true"]{border-color:var(--k);color:var(--k);background:var(--k-soft)}
+.hint{font-size:12.5px;color:var(--muted);margin-left:auto}
+
+/* ---------- certificate sheet ---------- */
+.sheets{display:flex;flex-direction:column;gap:22px;align-items:center}
+.sheet{
+  width:297mm;height:210mm;background:#fff;color:#14201d;position:relative;overflow:hidden;
+  box-shadow:var(--shadow);flex:none;transform-origin:top left;
+  font-family:"Manrope",sans-serif;
+}
+.scaler{overflow:hidden}
+
+.frame{position:absolute;inset:10mm;border:1.2pt solid var(--ck)}
+.frame2{position:absolute;inset:12.5mm;border:.5pt solid #C9A227}
+.corner{position:absolute;width:16mm;height:16mm;border:0 solid var(--ck)}
+.c1{top:10mm;left:10mm;border-top-width:3.5pt;border-left-width:3.5pt}
+.c2{top:10mm;right:10mm;border-top-width:3.5pt;border-right-width:3.5pt}
+.c3{bottom:10mm;left:10mm;border-bottom-width:3.5pt;border-left-width:3.5pt}
+.c4{bottom:10mm;right:10mm;border-bottom-width:3.5pt;border-right-width:3.5pt}
+
+.inner{position:absolute;inset:20mm 24mm;display:flex;flex-direction:column}
+.top{display:flex;justify-content:space-between;align-items:flex-start}
+.brand{display:flex;align-items:center;gap:3.5mm}
+.mk{width:11mm;height:11mm;border-radius:2.6mm;background:var(--ck);color:#fff;display:flex;
+  align-items:center;justify-content:center;font-weight:800;font-size:10pt}
+.bt{font-family:"Fraunces",Georgia,serif;font-weight:700;font-size:15pt;line-height:1;letter-spacing:.01em}
+.bs{font-size:6.6pt;letter-spacing:.22em;text-transform:uppercase;color:#697773;margin-top:1.2mm}
+
+.cbody{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:0 6mm}
+.pre{font-size:8pt;letter-spacing:.3em;text-transform:uppercase;color:#697773;margin-bottom:5mm}
+.ctitle{font-family:"Fraunces",Georgia,serif;font-size:21pt;font-weight:700;color:var(--ck);
+  letter-spacing:.02em;line-height:1.22;margin-bottom:7mm}
+.crule{width:30mm;height:2.2pt;background:#C9A227;margin:0 auto 7mm}
+.awarded{font-size:9.5pt;color:#42524e;margin-bottom:3.5mm}
+.cname{font-family:"Fraunces",Georgia,serif;font-size:30pt;font-weight:700;line-height:1.1;
+  margin-bottom:3mm;color:#0b2b26;min-height:34pt}
+.nameline{width:112mm;height:.6pt;background:#cfd6d2;margin:0 auto 6mm}
+.cdesc{font-size:9pt;line-height:1.6;color:#42524e;max-width:182mm;margin:0 auto}
+.kurucu{font-size:8pt;color:#A8751B;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-top:4mm}
+
+.cbottom{display:flex;justify-content:space-between;align-items:flex-end;gap:10mm}
+.sigs{display:flex;gap:14mm}
+.sig{text-align:center;min-width:50mm}
+.sig .line{height:.6pt;background:#8a9995;margin-bottom:2mm}
+.sig .who{font-size:8.2pt;font-weight:700;min-height:11pt}
+.sig .role{font-size:7pt;color:#697773;margin-top:.6mm}
+.meta{text-align:right;font-size:7.4pt;color:#697773;line-height:1.65}
+.meta b{color:#14201d}
+.qrbox{display:flex;align-items:flex-end;gap:4mm}
+.qrcap{font-size:6.3pt;color:#8a9995;text-align:center;margin-top:1.2mm;line-height:1.3}
+#qr{display:block;width:27mm;height:27mm;background:#fff}
+
+.ribbon{position:absolute;top:0;right:0;width:64mm;height:64mm;overflow:hidden}
+.ribbon span{position:absolute;top:15mm;right:-16mm;width:82mm;transform:rotate(45deg);
+  background:#C9A227;color:#2a1f06;text-align:center;font-size:7.6pt;font-weight:800;
+  letter-spacing:.16em;padding:2.2mm 0;text-transform:uppercase}
+
+/* back */
+.back{position:absolute;inset:14mm 18mm;display:flex;flex-direction:column;gap:6mm}
+.back h2{font-family:"Fraunces",Georgia,serif;font-size:13pt;color:var(--ck);margin:0 0 2.5mm}
+.back h3{font-size:8pt;letter-spacing:.16em;text-transform:uppercase;color:#697773;margin:0 0 2mm;font-weight:700}
+.cols{display:flex;gap:10mm;flex:1}
+.col{flex:1}
+.ul{margin:0;padding-left:4.5mm;font-size:8.4pt;line-height:1.65;color:#2e3d39}
+.ul li{margin-bottom:1.4mm}
+table.mod{width:100%;border-collapse:collapse;font-size:7.6pt}
+table.mod td{padding:1.5mm 2mm;border-bottom:.4pt solid #e3e8e4;vertical-align:top}
+table.mod td:first-child{font-family:"JetBrains Mono",monospace;color:var(--ck);width:12mm;font-weight:600}
+table.mod td:last-child{text-align:right;color:#697773;white-space:nowrap}
+.cnote{background:#f5ead3;border-left:2.5pt solid #C9A227;padding:3mm 4mm;font-size:7.8pt;line-height:1.55;color:#2e3d39}
+.cfoot{border-top:.6pt solid #cfd6d2;padding-top:3mm;font-size:7pt;color:#8a9995;line-height:1.6;
+  display:flex;justify-content:space-between;gap:8mm}
+
+@media print{
+  @page{size:A4 landscape;margin:0}
+  body{background:#fff}
+  .wrap{padding:0;max-width:none}
+  .head,.panel,.printhint{display:none!important}
+  .sheets{gap:0}
+  .scaler{overflow:visible!important;height:auto!important}
+  .sheet{box-shadow:none;transform:none!important;page-break-after:always;break-after:page}
+  .sheet:last-child{page-break-after:auto;break-after:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div>
+      <div class="eyebrow">EPNEXUS Fasilitatör Ağı · Belge 08</div>
+      <h1>Fasilitatör Sertifikası</h1>
+      <p>Kademe 1, 2 ve 3 için ön yüz + yetkinlik özeti arka yüzü. Alanları doldurun, önizleyin, yazdırın — tarayıcının yazdırma ekranından <b>PDF olarak kaydet</b> seçeneğiyle A4 yatay çıktı alınır. Kare kod, sertifika numarasından canlı üretilir.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="fields">
+      <div><label for="fAd">Ad Soyad</label><input id="fAd" value="ZEYNEP AKTAŞ"></div>
+      <div><label for="fNo">Sertifika no</label><input id="fNo" value="EPN-FAC-K1-2026-0037"></div>
+      <div><label for="fVeris">Veriliş</label><input id="fVeris" value="14.08.2026"></div>
+      <div><label for="fBitis">Geçerlilik bitişi</label><input id="fBitis" value="14.08.2028"></div>
+      <div><label for="fKademe">Kademe</label>
+        <select id="fKademe">
+          <option value="1" selected>Kademe 1 — Sertifikalı Fasilitatör</option>
+          <option value="2">Kademe 2 — Kıdemli Fasilitatör</option>
+          <option value="3">Kademe 3 — Master Fasilitatör</option>
+        </select></div>
+      <div><label for="fMaster">Program yürütücüsü</label><input id="fMaster" value="Güneş Maraz Turan"></div>
+      <div><label for="fSem">Üniversite / SEM</label><input id="fSem" value="Sakarya Üniversitesi Sürekli Eğitim Merkezi"></div>
+      <div><label for="fUrl">Doğrulama adresi</label><input id="fUrl" value="epnexusgames.com/dogrula"></div>
+    </div>
+    <div class="row2">
+      <label class="chk" style="text-transform:none;letter-spacing:0;margin:0">
+        <input type="checkbox" id="fKurucu"> Kurucu Fasilitatör şeridi (ilk 50 kişi)
+      </label>
+      <button class="btn" id="btnPrint">Yazdır / PDF kaydet</button>
+      <button class="btn ghost" id="btnTheme">Tema</button>
+      <span class="hint">Yazdırma ayarlarında <b>A4 · yatay · kenar boşluğu yok</b> ve <b>arka plan grafikleri</b> açık olmalı.</span>
+    </div>
+  </div>
+
+  <div class="scaler" id="scaler">
+    <div class="sheets" id="sheets">
+
+      <!-- ÖN YÜZ -->
+      <section class="sheet" id="front">
+        <div class="frame"></div><div class="frame2"></div>
+        <div class="corner c1"></div><div class="corner c2"></div>
+        <div class="corner c3"></div><div class="corner c4"></div>
+        <div class="ribbon" id="ribbon" hidden><span>Kurucu Fasilitatör</span></div>
+        <div class="inner">
+          <div class="top">
+            <div class="brand">
+              <div class="mk">EP</div>
+              <div><div class="bt">EPNEXUS</div><div class="bs">Education Phygital Games</div></div>
+            </div>
+            <div id="sealBox"></div>
+          </div>
+          <div class="cbody">
+            <div class="pre">Katılım ve Yeterlilik Belgesi</div>
+            <div class="ctitle" id="oTitle"></div>
+            <div class="crule"></div>
+            <div class="awarded">Bu belge</div>
+            <div class="cname" id="oName"></div>
+            <div class="nameline"></div>
+            <div class="cdesc"><span>adına düzenlenmiştir. Belge sahibi, </span><span id="oDesc"></span></div>
+            <div class="kurucu" id="oKurucu" hidden>Kurucu Kohort · 2026 · İlk 50 fasilitatörden biri</div>
+          </div>
+          <div class="cbottom">
+            <div class="sigs">
+              <div class="sig"><div class="line"></div><div class="who">Kübra Kevser Dimbaş</div><div class="role">Kurucu · EPNEXUS</div></div>
+              <div class="sig"><div class="line"></div><div class="who" id="oMaster"></div><div class="role">Master Fasilitatör · Program Yürütücüsü</div></div>
+              <div class="sig"><div class="line"></div><div class="who">&nbsp;</div><div class="role" id="oSem"></div></div>
+            </div>
+            <div class="qrbox">
+              <div class="meta">
+                <b>Sertifika no</b> <span id="oNo"></span><br>
+                <b>Veriliş</b> <span id="oVeris"></span> &nbsp; <b>Geçerlilik</b> <span id="oBitis"></span><br>
+                <b>Program</b> <span id="oSure"></span> &nbsp; <b>Süre</b> <span id="oGec"></span>
+              </div>
+              <div><canvas id="qr" width="320" height="320"></canvas>
+                <div class="qrcap">Doğrula<br><span id="oUrlCap"></span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ARKA YÜZ -->
+      <section class="sheet" id="back">
+        <div class="back">
+          <div>
+            <h2>Belge Sahibinin Yetkinlikleri</h2>
+            <div style="font-size:8.4pt;color:#42524e;line-height:1.6">Bu belge, sahibinin aşağıdaki
+              yetkinlikleri kazandığını ve ilgili yetkileri kullanabileceğini gösterir.</div>
+          </div>
+          <div class="cols">
+            <div class="col">
+              <h3>Tamamlanan program</h3>
+              <table class="mod"><tbody id="bMods"></tbody></table>
+              <div style="font-size:7.6pt;color:#697773;margin-top:2.5mm;text-align:right">
+                <b style="color:#14201d">Toplam <span id="bSure"></span></b></div>
+            </div>
+            <div class="col">
+              <h3>Kullanabileceği yetkiler</h3>
+              <ul class="ul" id="bYetki"></ul>
+              <h3 style="margin-top:6mm">Geçerlilik ve yenileme</h3>
+              <div style="font-size:8.2pt;line-height:1.6;color:#2e3d39">
+                Bu sertifika <b id="bGec"></b> geçerlidir. Yenileme için EPNEXUS Fasilitatör Ağı
+                Yönetmeliği Madde 6.2'deki aktiflik koşulları aranır. Koşullar karşılanmazsa belge
+                bir alt kademeye düşer.
+              </div>
+            </div>
+          </div>
+          <div class="cnote">
+            <b>Doğrulama.</b> Bu belgenin geçerliliği, ön yüzdeki kare kodla veya
+            <b id="bUrl"></b> adresinden sertifika numarası girilerek sorgulanabilir.
+            Belge Open Badges 3.0 uyumludur ve dijital rozet olarak paylaşılabilir.
+            <br><b>Marka kullanımı.</b> Belge sahibi, unvanını EPNEXUS Marka Kullanım ve Etik
+            Sözleşmesi (Yönetmelik EK-A) sınırları içinde kullanır. Belge, EPNEXUS adına sözleşme
+            yapma veya tahsilat yetkisi vermez.
+          </div>
+          <div class="cfoot">
+            <div>EPNEXUS · Education Phygital Games<br>epnexusgames.com · epnexus2026@gmail.com</div>
+            <div style="text-align:right">Sertifika no <span id="bNo"></span><br>
+              Sürüm v1.0 · Bu belge kopyalanamaz ve devredilemez</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+  <p class="printhint" style="text-align:center;color:var(--muted);font-size:12.5px;margin-top:18px">
+    Önizleme ekrana sığacak şekilde küçültülmüştür; çıktı gerçek A4 boyutundadır.
+  </p>
+</div>
+
+<script>
+const KADEME = {
+  1:{ad:"SERTİFİKALI EPNEXUS OYUN FASİLİTATÖRÜ", kod:"K1", renk:"#0D6157", sure:"27 saat", gec:"2 yıl",
+     desc:"27 saatlik EPNEXUS Oyun Fasilitatörü programını tamamlamış, sekiz modülün tamamından başarılı olmuş, üç onaylı sınıf uygulaması ve bir kabul edilmiş eğitsel oyun varyantı teslim etmiştir.",
+     yetki:["Dört EPNEXUS oyununu kazanıma bağlı biçimde uygulamak",
+            "Kazanım gözlem rubriğiyle ölçme yapmak ve rapor üretmek",
+            "Sınıf içi turnuva düzenlemek ve hakemlik yapmak",
+            "Materyalde fasilitatör fiyat kademesinden yararlanmak",
+            "EPNEXUS Fasilitatör Dizini'nde yer almak",
+            "Oyun Havuzu'na 🌱 Tohum düzeyinde tasarım katkısı vermek"],
+     mod:[["M1","Oyun Temelli Öğrenmenin Temeli","3 sa"],["M2","EPNEXUS Müfredat Çerçevesi ve Kazanım Kodları","4 sa"],
+          ["M3","Dört Oyunun Uygulamalı Öğretimi","6 sa"],["M4","Sınıf Yönetimi ve Farklılaştırma","3 sa"],
+          ["M5","Oyunla Ölçme-Değerlendirme","3 sa"],["M6","Turnuva, Etkinlik ve Hakemlik","3 sa"],
+          ["M7","Fasilitatörün Ticari ve Etik Tarafı","2 sa"],["M8","Oyun Tasarımına Giriş: Varyant Üretimi","3 sa"]]},
+  2:{ad:"EPNEXUS KIDEMLİ FASİLİTATÖRÜ", kod:"K2", renk:"#A8751B", sure:"18 saat", gec:"3 yıl",
+     desc:"18 saatlik Kıdemli Fasilitatör programını tamamlamış, işletme dosyasını ve kendi alanında özgün bir eğitsel oyun prototipini jüri onayıyla teslim etmiştir.",
+     yetki:["EPNEXUS onaylı atölye ve kurs açmak",
+            "İl/ilçe turnuvası düzenlemek ve gelir payı almak",
+            "Kademe 1 fasilitatörlerine mentorluk ve rapor ön onayı vermek",
+            "Materyalde 500'lü fiyat kademesinden yararlanmak",
+            "Bölge taleplerinde öncelik kazanmak",
+            "Oyun Havuzu'na 🌿 Prototip düzeyinde katkı vermek"],
+     mod:[["KM1","Uzman Pedagoji ve Veri Okuma","3 sa"],["KM2","Program Tasarımı","3 sa"],
+          ["KM3","Turnuva Direktörlüğü","3 sa"],["KM4","Kurumsal Satış","3 sa"],
+          ["KM5","Atölye İşletmeciliği","2 sa"],["KM6","Mentorluk ve Kalibrasyon","2 sa"],
+          ["KM7","İleri Oyun Tasarımı","2 sa"]]},
+  3:{ad:"EPNEXUS MASTER FASİLİTATÖRÜ", kod:"K3", renk:"#7A4FA3", sure:"59 saat", gec:"2 yıl",
+     desc:"59 saatlik Master Fasilitatör programını, gölge eğitmenliği ve süpervizyonlu ko-eğitmenliği tamamlamış, yayına hazır bir oyun dosyası teslim etmiş ve tasarım mentorluğu yükümlülüğünü yerine getirmiştir.",
+     yetki:["Kademe 1 eğitimi vermek ve sertifika kararı almak",
+            "Eğitim gelirinden pay almak",
+            "Oyun Tasarım Jürisinde görev almak",
+            "Rubrik kalibrasyon oturumu yönetmek",
+            "Ürün Kurulu üyeliği ve beta erişimi",
+            "Oyun Havuzu kürasyonu yapmak"],
+     mod:[["MM1","Yetişkin Öğreneni Anlamak","3 sa"],["MM2","Eğitim Tasarımı ve Mikro Öğretim","4 sa"],
+          ["MM3","Kamp ve Kohort Yönetimi","3 sa"],["MM4","Yüksek Bahisli Değerlendirme","4 sa"],
+          ["MM5","Marka Sesi ve İçerik Standardı","2 sa"],["MM6","Eğitmenlik İşletmesi","4 sa"],
+          ["MM7","Ürün Kurulu ve Ar-Ge","4 sa"],["MM8","Tasarım Mentorluğu ve Oyun Jürisi","3 sa"],
+          ["—","Gölge eğitmenlik","8 sa"],["—","Süpervizyonlu ko-eğitmenlik","24 sa"]]},
+};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function seal(kod, renk){
+  let dots = '';
+  for(let a=0; a<360; a+=15){
+    const r = a*Math.PI/180;
+    dots += `<circle cx="${(48+42*Math.cos(r)).toFixed(2)}" cy="${(48+42*Math.sin(r)).toFixed(2)}" r="1.5" fill="${renk}"/>`;
+  }
+  return `<svg width="96" height="96" viewBox="0 0 96 96" aria-hidden="true">
+    <circle cx="48" cy="48" r="45" fill="none" stroke="${renk}" stroke-width="1.2"/>
+    <circle cx="48" cy="48" r="39" fill="none" stroke="${renk}" stroke-width="2.6"/>
+    <circle cx="48" cy="48" r="30" fill="${renk}"/>${dots}
+    <text x="48" y="54" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="19"
+      font-weight="700" fill="#ffffff">${kod}</text></svg>`;
+}
+
+function render(){
+  const k = KADEME[$('#fKademe').value] || KADEME[1];
+  const no = $('#fNo').value.trim();
+  const urlBase = $('#fUrl').value.trim().replace(/^https?:\/\//,'').replace(/\/$/,'');
+  const kurucu = $('#fKurucu').checked;
+
+  document.querySelectorAll('.sheet').forEach(s => s.style.setProperty('--ck', k.renk));
+  $('#sealBox').innerHTML = seal(k.kod, k.renk);
+  $('#oTitle').textContent = k.ad;
+  $('#oName').textContent = $('#fAd').value;
+  $('#oDesc').textContent = k.desc;
+  $('#oMaster').textContent = $('#fMaster').value;
+  $('#oSem').textContent = $('#fSem').value;
+  $('#oNo').textContent = no;
+  $('#oVeris').textContent = $('#fVeris').value;
+  $('#oBitis').textContent = $('#fBitis').value;
+  $('#oSure').textContent = k.sure;
+  $('#oGec').textContent = k.gec;
+  $('#oUrlCap').textContent = urlBase.split('/')[0];
+  $('#ribbon').hidden = !kurucu;
+  $('#oKurucu').hidden = !kurucu;
+
+  $('#bMods').innerHTML = k.mod.map(m =>
+    `<tr><td>${esc(m[0])}</td><td>${esc(m[1])}</td><td>${esc(m[2])}</td></tr>`).join('');
+  $('#bSure').textContent = k.sure;
+  $('#bYetki').innerHTML = k.yetki.map(y => `<li>${esc(y)}</li>`).join('');
+  $('#bGec').textContent = k.gec;
+  $('#bUrl').textContent = urlBase;
+  $('#bNo').textContent = no;
+
+  try{
+    new QRious({ element: $('#qr'), value: `https://${urlBase}/${no}`,
+                 size: 320, level: 'M', background: '#ffffff', foreground: '#14201d', padding: 8 });
+  }catch(e){ /* kütüphane yüklenmediyse kare boş kalır */ }
+}
+
+function fit(){
+  const sheets = $('#sheets'), scaler = $('#scaler');
+  const avail = scaler.clientWidth;
+  const natural = 297 * 96 / 25.4;               // 297mm in css px
+  const s = Math.min(1, avail / natural);
+  sheets.style.transform = `scale(${s})`;
+  sheets.style.transformOrigin = 'top left';
+  sheets.style.width = natural + 'px';
+  const h = sheets.getBoundingClientRect().height;
+  scaler.style.height = h + 'px';
+}
+
+document.querySelectorAll('.panel input, .panel select').forEach(el => {
+  el.addEventListener('input', render);
+  el.addEventListener('change', render);
+});
+$('#btnPrint').onclick = () => window.print();
+$('#btnTheme').onclick = () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme', cur ? (cur === 'dark' ? 'light' : 'dark') : (sysDark ? 'light' : 'dark'));
+};
+window.addEventListener('resize', fit);
+render(); fit();
+setTimeout(() => { render(); fit(); }, 700);   // web fontları yüklendikten sonra
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sertifika Doğrulama — EPNEXUS</title>
+<meta name="description" content="EPNEXUS Fasilitatör sertifikasının geçerliliğini sertifika numarasıyla doğrulayın.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎖️</text></svg>">
+<link rel="stylesheet" href="/assets/stil.css">
+</head>
+<body>
+<header class="ust">
+  <div class="ust-ic">
+    <a class="marka" href="/">EPNEXUS <span>Sertifika Doğrulama</span></a>
+  </div>
+</header>
+
+<main class="kabuk">
+  <div class="giris-kutu">
+    <div class="kart">
+      <h1>Sertifika doğrulama</h1>
+      <p class="kucuk-not">
+        Sertifika numarasını girin. Numara sertifikanın üzerinde ve QR kodunda yer alır
+        (örnek: <code>EPN-FAC-K1-2026-0037</code>).
+      </p>
+      <form id="form">
+        <label for="no">Sertifika numarası</label>
+        <input id="no" name="no" placeholder="EPN-FAC-K1-2026-0037" autocomplete="off" required>
+        <div style="margin-top:14px"><button class="dugme" type="submit">Doğrula</button></div>
+      </form>
+      <div id="sonuc"></div>
+      <p class="dayanak">
+        Yönetmelik Md. 6.1 — sertifikalar QR doğrulamalı, Open Badges 3.0 uyumlu ve benzersiz numaralıdır.
+      </p>
+    </div>
+  </div>
+</main>
+
+<script type="module">
+const $ = (s) => document.querySelector(s);
+
+function kacir(m) {
+  return String(m).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
+async function dogrula(no, etiket) {
+  const q = etiket ? `?e=${encodeURIComponent(etiket)}` : '';
+  const y = await fetch(`/api/sertifikalar/dogrula/${encodeURIComponent(no)}${q}`);
+  const d = await y.json();
+  const kutu = $('#sonuc');
+
+  if (!d.bulundu) {
+    kutu.innerHTML = `<div class="uyari crit" style="margin-top:16px">${kacir(d.mesaj)}</div>`;
+    return;
+  }
+  const s = d.sertifika;
+  const sinif = d.gecerli ? 'ok' : 'crit';
+  const tarih = (t) => new Date(t).toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' });
+
+  kutu.innerHTML = `
+    <div class="uyari ${sinif}" style="margin-top:16px">${kacir(d.mesaj)}</div>
+    <table>
+      <tr><th>Ad Soyad</th><td>${kacir(s.adSoyad)}</td></tr>
+      <tr><th>Unvan</th><td>${d.unvan ? kacir(d.unvan) : '<span class="kucuk-not">— (geçerli değil)</span>'}</td></tr>
+      <tr><th>Kademe</th><td>Kademe ${s.kademe}</td></tr>
+      <tr><th>Sertifika no</th><td class="mono">${kacir(s.no)}</td></tr>
+      <tr><th>Veriliş</th><td>${tarih(s.verilis)}</td></tr>
+      <tr><th>Geçerlilik</th><td>${tarih(s.gecerlilik)}</td></tr>
+      <tr><th>Kararı veren</th><td>${s.kararVerenMaster ? kacir(s.kararVerenMaster) : '—'}</td></tr>
+      ${s.kurucuKohort ? '<tr><th>Kohort</th><td><span class="rozet gold">🥇 Kurucu Fasilitatör</span></td></tr>' : ''}
+    </table>
+    <p class="dayanak">
+      ${s.universiteSem
+        ? kacir(s.universiteSem) + ' iş birliğiyle düzenlenmiştir.'
+        : 'Bu belge EPNEXUS tarafından düzenlenen bir katılım ve yetkinlik belgesidir; MEB denklik/geçerlilik iddiası taşımaz.'}
+    </p>
+    <p><a href="/api/sertifikalar/${encodeURIComponent(s.no)}/openbadge" target="_blank" rel="noopener">Open Badges 3.0 kaydı →</a></p>`;
+}
+
+$('#form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const no = $('#no').value.trim();
+  if (no) dogrula(no, new URLSearchParams(location.search).get('e'));
+});
+
+// /dogrula.html?no=... veya /dogrula/<no> biçimindeki bağlantıları karşıla.
+const p = new URLSearchParams(location.search);
+const yoldan = location.pathname.match(/\/dogrula\/(.+)$/)?.[1];
+const baslangic = p.get('no') ?? (yoldan ? decodeURIComponent(yoldan) : null);
+if (baslangic) { $('#no').value = baslangic; dogrula(baslangic, p.get('e')); }
+</script>
+</body>
+</html>

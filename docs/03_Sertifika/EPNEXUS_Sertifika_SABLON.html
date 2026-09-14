@@ -1,0 +1,148 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8">
+<title>EPNEXUS Sertifika — {{AD_SOYAD}}</title><style>
+@page { size: A4 landscape; margin: 0; }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-family:"Carlito","DejaVu Sans","Noto Color Emoji",sans-serif;color:#14201d;background:#fff}
+.page{width:297mm;height:210mm;position:relative;overflow:hidden;background:#fff;page-break-after:always}
+.page:last-child{page-break-after:auto}
+
+/* ---- front ---- */
+.frame{position:absolute;inset:10mm;border:1.2pt solid var(--k);}
+.frame2{position:absolute;inset:12.5mm;border:0.5pt solid #C9A227;}
+.corner{position:absolute;width:16mm;height:16mm;border:0 solid var(--k)}
+.c1{top:10mm;left:10mm;border-top-width:3.5pt;border-left-width:3.5pt}
+.c2{top:10mm;right:10mm;border-top-width:3.5pt;border-right-width:3.5pt}
+.c3{bottom:10mm;left:10mm;border-bottom-width:3.5pt;border-left-width:3.5pt}
+.c4{bottom:10mm;right:10mm;border-bottom-width:3.5pt;border-right-width:3.5pt}
+
+.inner{position:absolute;inset:20mm 24mm;display:flex;flex-direction:column}
+.top{display:flex;justify-content:space-between;align-items:flex-start}
+.brand{display:flex;align-items:center;gap:3.5mm}
+.mk{width:11mm;height:11mm;border-radius:2.6mm;background:var(--k);color:#fff;display:flex;
+    align-items:center;justify-content:center;font-weight:800;font-size:10pt;letter-spacing:.02em}
+.bt{font-family:"DejaVu Serif",serif;font-weight:700;font-size:15pt;letter-spacing:.02em;line-height:1}
+.bs{font-size:6.6pt;letter-spacing:.22em;text-transform:uppercase;color:#697773;margin-top:1.2mm}
+
+.body{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:0 6mm}
+.pre{font-size:8pt;letter-spacing:.3em;text-transform:uppercase;color:#697773;margin-bottom:5mm}
+.title{font-family:"DejaVu Serif",serif;font-size:21pt;font-weight:700;color:var(--k);
+       letter-spacing:.03em;line-height:1.22;margin-bottom:7mm}
+.rule{width:30mm;height:2.2pt;background:#C9A227;margin:0 auto 7mm}
+.awarded{font-size:9.5pt;color:#42524e;margin-bottom:3.5mm}
+.name{font-family:"DejaVu Serif",serif;font-size:30pt;font-weight:700;line-height:1.1;
+      margin-bottom:3mm;color:#0b2b26}
+.nameline{width:112mm;height:0.6pt;background:#cfd6d2;margin:0 auto 6mm}
+.desc{font-size:9pt;line-height:1.6;color:#42524e;max-width:180mm;margin:0 auto}
+
+.bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:7mm}
+.sigs{display:flex;gap:9mm}
+.sig{text-align:center;min-width:44mm}
+.sig .line{height:0.6pt;background:#8a9995;margin-bottom:2mm}
+.sig .who{font-size:8.2pt;font-weight:700}
+.sig .role{font-size:7pt;color:#697773;margin-top:.6mm}
+.meta{text-align:right;font-size:7.2pt;color:#697773;line-height:1.7;white-space:nowrap}
+.meta b{color:#14201d}
+.qrbox{display:flex;align-items:flex-end;gap:4mm;flex:none}
+.qrcap{font-size:6.3pt;color:#8a9995;text-align:center;margin-top:1.2mm;line-height:1.3}
+
+.ribbon{position:absolute;top:0;right:0;width:76mm;height:76mm;overflow:hidden}
+.ribbon span{position:absolute;top:26mm;right:-24mm;width:110mm;transform:rotate(45deg);
+  background:#C9A227;color:#2a1f06;text-align:center;font-size:7pt;font-weight:800;
+  letter-spacing:.10em;padding:2.2mm 0;text-transform:uppercase}
+
+/* ---- back ---- */
+.back{position:absolute;inset:14mm 18mm;display:flex;flex-direction:column;gap:6mm}
+.back h2{font-family:"DejaVu Serif",serif;font-size:13pt;color:var(--k);margin:0 0 2.5mm}
+.back h3{font-size:8pt;letter-spacing:.16em;text-transform:uppercase;color:#697773;margin:0 0 2mm;font-weight:700}
+.cols{display:flex;gap:10mm;flex:1}
+.col{flex:1}
+.ul{margin:0;padding-left:4.5mm;font-size:8.4pt;line-height:1.65;color:#2e3d39}
+.ul li{margin-bottom:1.4mm}
+table.mod{width:100%;border-collapse:collapse;font-size:7.6pt}
+table.mod td{padding:1.5mm 2mm;border-bottom:0.4pt solid #e3e8e4;vertical-align:top}
+table.mod td:first-child{font-family:"DejaVu Sans Mono",monospace;color:var(--k);width:11mm;font-weight:700}
+table.mod td:last-child{text-align:right;color:#697773;white-space:nowrap}
+.note{background:#f5ead3;border-left:2.5pt solid #C9A227;padding:3mm 4mm;font-size:7.8pt;line-height:1.55}
+.foot{border-top:0.6pt solid #cfd6d2;padding-top:3mm;font-size:7pt;color:#8a9995;line-height:1.6;
+      display:flex;justify-content:space-between;gap:8mm}
+</style></head>
+<body><div class="page" style="--k:#0D6157">
+  <div class="frame"></div><div class="frame2"></div>
+  <div class="corner c1"></div><div class="corner c2"></div>
+  <div class="corner c3"></div><div class="corner c4"></div>
+  
+  <div class="inner">
+    <div class="top">
+      <div class="brand"><div class="mk">EP</div>
+        <div><div class="bt">EPNEXUS</div><div class="bs">Education Phygital Games</div></div></div>
+      <div><svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><circle cx="48" cy="48" r="45" fill="none" stroke="#0D6157" stroke-width="1.2"/><circle cx="48" cy="48" r="39" fill="none" stroke="#0D6157" stroke-width="2.6"/><circle cx="48" cy="48" r="30" fill="#0D6157"/><circle cx="90.00" cy="48.00" r="1.5" fill="#0D6157"/><circle cx="88.57" cy="58.87" r="1.5" fill="#0D6157"/><circle cx="84.37" cy="69.00" r="1.5" fill="#0D6157"/><circle cx="77.70" cy="77.70" r="1.5" fill="#0D6157"/><circle cx="69.00" cy="84.37" r="1.5" fill="#0D6157"/><circle cx="58.87" cy="88.57" r="1.5" fill="#0D6157"/><circle cx="48.00" cy="90.00" r="1.5" fill="#0D6157"/><circle cx="37.13" cy="88.57" r="1.5" fill="#0D6157"/><circle cx="27.00" cy="84.37" r="1.5" fill="#0D6157"/><circle cx="18.30" cy="77.70" r="1.5" fill="#0D6157"/><circle cx="11.63" cy="69.00" r="1.5" fill="#0D6157"/><circle cx="7.43" cy="58.87" r="1.5" fill="#0D6157"/><circle cx="6.00" cy="48.00" r="1.5" fill="#0D6157"/><circle cx="7.43" cy="37.13" r="1.5" fill="#0D6157"/><circle cx="11.63" cy="27.00" r="1.5" fill="#0D6157"/><circle cx="18.30" cy="18.30" r="1.5" fill="#0D6157"/><circle cx="27.00" cy="11.63" r="1.5" fill="#0D6157"/><circle cx="37.13" cy="7.43" r="1.5" fill="#0D6157"/><circle cx="48.00" cy="6.00" r="1.5" fill="#0D6157"/><circle cx="58.87" cy="7.43" r="1.5" fill="#0D6157"/><circle cx="69.00" cy="11.63" r="1.5" fill="#0D6157"/><circle cx="77.70" cy="18.30" r="1.5" fill="#0D6157"/><circle cx="84.37" cy="27.00" r="1.5" fill="#0D6157"/><circle cx="88.57" cy="37.13" r="1.5" fill="#0D6157"/><text x="48" y="54" text-anchor="middle" font-family="DejaVu Serif, serif" font-size="19" font-weight="700" fill="#ffffff">K1</text></svg></div>
+    </div>
+    <div class="body">
+      <div class="pre">Katılım ve Yeterlilik Belgesi</div>
+      <div class="title">SERTİFİKALI EPNEXUS OYUN FASİLİTATÖRÜ</div>
+      <div class="rule"></div>
+      <div class="awarded">Bu belge</div>
+      <div class="name">{{AD_SOYAD}}</div>
+      <div class="nameline"></div>
+      <div class="desc">adına düzenlenmiştir. Belge sahibi, 27 saatlik EPNEXUS Oyun Fasilitatörü programını tamamlamış, sekiz modülün tamamından başarılı olmuş, üç onaylı sınıf uygulaması ve bir kabul edilmiş eğitsel oyun varyantı teslim etmiştir.</div>
+      
+    </div>
+    <div class="bottom">
+      <div class="sigs">
+        <div class="sig"><div class="line"></div><div class="who">Kübra Kevser Dimbaş</div>
+          <div class="role">Kurucu · EPNEXUS</div></div>
+        <div class="sig"><div class="line"></div><div class="who">{{MASTER_FASILITATOR}}</div>
+          <div class="role">Master Fasilitatör · Program Yürütücüsü</div></div>
+        <div class="sig"><div class="line"></div><div class="who">&nbsp;</div>
+          <div class="role">{{UNIVERSITE_SEM}}</div></div>
+      </div>
+      <div class="qrbox">
+        <div class="meta">
+          <b>Sertifika no</b> {{SERTIFIKA_NO}}<br>
+          <b>Veriliş</b> {{VERILIS}} &nbsp; <b>Geçerlilik</b> {{GECERLILIK}}<br>
+          <b>Program</b> 27 saat &nbsp; <b>Süre</b> 2 yıl
+        </div>
+        <div><div><svg width="108" height="108" viewBox="0 0 33 33" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect width="33" height="33" fill="#fff"/><g fill="#14201d"><rect x="2" y="2" width="7" height="1"/><rect x="11" y="2" width="1" height="1"/><rect x="17" y="2" width="6" height="1"/><rect x="24" y="2" width="7" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="8" y="3" width="1" height="1"/><rect x="10" y="3" width="2" height="1"/><rect x="13" y="3" width="2" height="1"/><rect x="16" y="3" width="4" height="1"/><rect x="22" y="3" width="1" height="1"/><rect x="24" y="3" width="1" height="1"/><rect x="30" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="4" y="4" width="3" height="1"/><rect x="8" y="4" width="1" height="1"/><rect x="11" y="4" width="3" height="1"/><rect x="16" y="4" width="1" height="1"/><rect x="21" y="4" width="1" height="1"/><rect x="24" y="4" width="1" height="1"/><rect x="26" y="4" width="3" height="1"/><rect x="30" y="4" width="1" height="1"/><rect x="2" y="5" width="1" height="1"/><rect x="4" y="5" width="3" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="10" y="5" width="2" height="1"/><rect x="13" y="5" width="2" height="1"/><rect x="16" y="5" width="4" height="1"/><rect x="24" y="5" width="1" height="1"/><rect x="26" y="5" width="3" height="1"/><rect x="30" y="5" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="4" y="6" width="3" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="12" y="6" width="1" height="1"/><rect x="14" y="6" width="1" height="1"/><rect x="16" y="6" width="7" height="1"/><rect x="24" y="6" width="1" height="1"/><rect x="26" y="6" width="3" height="1"/><rect x="30" y="6" width="1" height="1"/><rect x="2" y="7" width="1" height="1"/><rect x="8" y="7" width="1" height="1"/><rect x="10" y="7" width="1" height="1"/><rect x="12" y="7" width="1" height="1"/><rect x="15" y="7" width="1" height="1"/><rect x="17" y="7" width="2" height="1"/><rect x="24" y="7" width="1" height="1"/><rect x="30" y="7" width="1" height="1"/><rect x="2" y="8" width="7" height="1"/><rect x="10" y="8" width="1" height="1"/><rect x="12" y="8" width="1" height="1"/><rect x="14" y="8" width="1" height="1"/><rect x="16" y="8" width="1" height="1"/><rect x="18" y="8" width="1" height="1"/><rect x="20" y="8" width="1" height="1"/><rect x="22" y="8" width="1" height="1"/><rect x="24" y="8" width="7" height="1"/><rect x="21" y="9" width="2" height="1"/><rect x="2" y="10" width="5" height="1"/><rect x="8" y="10" width="6" height="1"/><rect x="16" y="10" width="1" height="1"/><rect x="18" y="10" width="4" height="1"/><rect x="23" y="10" width="1" height="1"/><rect x="25" y="10" width="1" height="1"/><rect x="27" y="10" width="1" height="1"/><rect x="29" y="10" width="1" height="1"/><rect x="2" y="11" width="3" height="1"/><rect x="6" y="11" width="2" height="1"/><rect x="10" y="11" width="2" height="1"/><rect x="13" y="11" width="1" height="1"/><rect x="16" y="11" width="1" height="1"/><rect x="18" y="11" width="4" height="1"/><rect x="24" y="11" width="3" height="1"/><rect x="30" y="11" width="1" height="1"/><rect x="7" y="12" width="5" height="1"/><rect x="16" y="12" width="4" height="1"/><rect x="22" y="12" width="5" height="1"/><rect x="2" y="13" width="1" height="1"/><rect x="9" y="13" width="4" height="1"/><rect x="21" y="13" width="1" height="1"/><rect x="23" y="13" width="1" height="1"/><rect x="25" y="13" width="3" height="1"/><rect x="29" y="13" width="1" height="1"/><rect x="3" y="14" width="4" height="1"/><rect x="8" y="14" width="1" height="1"/><rect x="10" y="14" width="2" height="1"/><rect x="13" y="14" width="1" height="1"/><rect x="16" y="14" width="1" height="1"/><rect x="18" y="14" width="2" height="1"/><rect x="22" y="14" width="1" height="1"/><rect x="27" y="14" width="2" height="1"/><rect x="2" y="15" width="3" height="1"/><rect x="6" y="15" width="2" height="1"/><rect x="9" y="15" width="1" height="1"/><rect x="12" y="15" width="2" height="1"/><rect x="15" y="15" width="1" height="1"/><rect x="18" y="15" width="1" height="1"/><rect x="20" y="15" width="3" height="1"/><rect x="24" y="15" width="3" height="1"/><rect x="30" y="15" width="1" height="1"/><rect x="2" y="16" width="1" height="1"/><rect x="4" y="16" width="2" height="1"/><rect x="8" y="16" width="3" height="1"/><rect x="17" y="16" width="2" height="1"/><rect x="22" y="16" width="1" height="1"/><rect x="27" y="16" width="2" height="1"/><rect x="5" y="17" width="3" height="1"/><rect x="9" y="17" width="2" height="1"/><rect x="12" y="17" width="2" height="1"/><rect x="16" y="17" width="1" height="1"/><rect x="18" y="17" width="1" height="1"/><rect x="20" y="17" width="1" height="1"/><rect x="22" y="17" width="1" height="1"/><rect x="25" y="17" width="1" height="1"/><rect x="29" y="17" width="1" height="1"/><rect x="4" y="18" width="2" height="1"/><rect x="7" y="18" width="2" height="1"/><rect x="10" y="18" width="5" height="1"/><rect x="16" y="18" width="1" height="1"/><rect x="19" y="18" width="1" height="1"/><rect x="27" y="18" width="2" height="1"/><rect x="2" y="19" width="5" height="1"/><rect x="19" y="19" width="4" height="1"/><rect x="24" y="19" width="3" height="1"/><rect x="28" y="19" width="1" height="1"/><rect x="30" y="19" width="1" height="1"/><rect x="2" y="20" width="1" height="1"/><rect x="4" y="20" width="1" height="1"/><rect x="7" y="20" width="6" height="1"/><rect x="14" y="20" width="6" height="1"/><rect x="22" y="20" width="2" height="1"/><rect x="26" y="20" width="1" height="1"/><rect x="28" y="20" width="1" height="1"/><rect x="2" y="21" width="1" height="1"/><rect x="6" y="21" width="2" height="1"/><rect x="9" y="21" width="2" height="1"/><rect x="12" y="21" width="2" height="1"/><rect x="17" y="21" width="1" height="1"/><rect x="22" y="21" width="1" height="1"/><rect x="24" y="21" width="1" height="1"/><rect x="26" y="21" width="1" height="1"/><rect x="29" y="21" width="1" height="1"/><rect x="2" y="22" width="1" height="1"/><rect x="4" y="22" width="2" height="1"/><rect x="8" y="22" width="1" height="1"/><rect x="10" y="22" width="2" height="1"/><rect x="13" y="22" width="2" height="1"/><rect x="16" y="22" width="2" height="1"/><rect x="19" y="22" width="1" height="1"/><rect x="21" y="22" width="6" height="1"/><rect x="28" y="22" width="3" height="1"/><rect x="10" y="23" width="3" height="1"/><rect x="15" y="23" width="1" height="1"/><rect x="18" y="23" width="1" height="1"/><rect x="20" y="23" width="1" height="1"/><rect x="22" y="23" width="1" height="1"/><rect x="26" y="23" width="5" height="1"/><rect x="2" y="24" width="7" height="1"/><rect x="10" y="24" width="1" height="1"/><rect x="17" y="24" width="1" height="1"/><rect x="19" y="24" width="1" height="1"/><rect x="21" y="24" width="2" height="1"/><rect x="24" y="24" width="1" height="1"/><rect x="26" y="24" width="3" height="1"/><rect x="2" y="25" width="1" height="1"/><rect x="8" y="25" width="1" height="1"/><rect x="11" y="25" width="3" height="1"/><rect x="16" y="25" width="3" height="1"/><rect x="21" y="25" width="2" height="1"/><rect x="26" y="25" width="1" height="1"/><rect x="2" y="26" width="1" height="1"/><rect x="4" y="26" width="3" height="1"/><rect x="8" y="26" width="1" height="1"/><rect x="10" y="26" width="1" height="1"/><rect x="12" y="26" width="2" height="1"/><rect x="16" y="26" width="1" height="1"/><rect x="19" y="26" width="1" height="1"/><rect x="22" y="26" width="5" height="1"/><rect x="28" y="26" width="2" height="1"/><rect x="2" y="27" width="1" height="1"/><rect x="4" y="27" width="3" height="1"/><rect x="8" y="27" width="1" height="1"/><rect x="10" y="27" width="2" height="1"/><rect x="15" y="27" width="1" height="1"/><rect x="18" y="27" width="1" height="1"/><rect x="21" y="27" width="1" height="1"/><rect x="25" y="27" width="1" height="1"/><rect x="27" y="27" width="2" height="1"/><rect x="30" y="27" width="1" height="1"/><rect x="2" y="28" width="1" height="1"/><rect x="4" y="28" width="3" height="1"/><rect x="8" y="28" width="1" height="1"/><rect x="10" y="28" width="1" height="1"/><rect x="15" y="28" width="1" height="1"/><rect x="17" y="28" width="4" height="1"/><rect x="23" y="28" width="7" height="1"/><rect x="2" y="29" width="1" height="1"/><rect x="8" y="29" width="1" height="1"/><rect x="10" y="29" width="2" height="1"/><rect x="14" y="29" width="1" height="1"/><rect x="16" y="29" width="3" height="1"/><rect x="20" y="29" width="1" height="1"/><rect x="22" y="29" width="1" height="1"/><rect x="25" y="29" width="3" height="1"/><rect x="29" y="29" width="1" height="1"/><rect x="2" y="30" width="7" height="1"/><rect x="10" y="30" width="2" height="1"/><rect x="14" y="30" width="1" height="1"/><rect x="16" y="30" width="4" height="1"/><rect x="21" y="30" width="1" height="1"/><rect x="24" y="30" width="3" height="1"/><rect x="28" y="30" width="1" height="1"/></g></svg></div><div class="qrcap">Doğrula<br>epnexusgames.com</div></div>
+      </div>
+    </div>
+  </div>
+</div><div class="page" style="--k:#0D6157">
+  <div class="back">
+    <div>
+      <h2>Belge Sahibinin Yetkinlikleri</h2>
+      <div style="font-size:8.4pt;color:#42524e;line-height:1.6">Bu belge, sahibinin aşağıdaki yetkinlikleri
+      kazandığını ve ilgili yetkileri kullanabileceğini gösterir.</div>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <h3>Tamamlanan program</h3>
+        <table class="mod"><tr><td>M1</td><td>Oyun Temelli Öğrenmenin Temeli</td><td>3 sa</td></tr><tr><td>M2</td><td>EPNEXUS Müfredat Çerçevesi ve Kazanım Kodları</td><td>4 sa</td></tr><tr><td>M3</td><td>Dört Oyunun Uygulamalı Öğretimi</td><td>6 sa</td></tr><tr><td>M4</td><td>Sınıf Yönetimi ve Farklılaştırma</td><td>3 sa</td></tr><tr><td>M5</td><td>Oyunla Ölçme-Değerlendirme</td><td>3 sa</td></tr><tr><td>M6</td><td>Turnuva, Etkinlik ve Hakemlik</td><td>3 sa</td></tr><tr><td>M7</td><td>Fasilitatörün Ticari ve Etik Tarafı</td><td>2 sa</td></tr><tr><td>M8</td><td>Oyun Tasarımına Giriş: Varyant Üretimi</td><td>3 sa</td></tr></table>
+        <div style="font-size:7.6pt;color:#697773;margin-top:2.5mm;text-align:right">
+          <b style="color:#14201d">Toplam 27 saat</b></div>
+      </div>
+      <div class="col">
+        <h3>Kullanabileceği yetkiler</h3>
+        <ul class="ul"><li>Dört EPNEXUS oyununu kazanıma bağlı biçimde uygulamak</li><li>Kazanım gözlem rubriğiyle ölçme yapmak ve rapor üretmek</li><li>Sınıf içi turnuva düzenlemek ve hakemlik yapmak</li><li>Materyalde fasilitatör fiyat kademesinden yararlanmak</li><li>EPNEXUS Fasilitatör Dizini'nde yer almak</li><li>Oyun Havuzu'na 🌱 Tohum düzeyinde tasarım katkısı vermek</li></ul>
+        <h3 style="margin-top:6mm">Geçerlilik ve yenileme</h3>
+        <div style="font-size:8.2pt;line-height:1.6;color:#2e3d39">
+          Bu sertifika <b>2 yıl</b> geçerlidir. Yenileme için EPNEXUS Fasilitatör Ağı
+          Yönetmeliği Madde 6.2'deki aktiflik koşulları aranır. Koşullar karşılanmazsa belge
+          bir alt kademeye düşer.
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <b>Doğrulama.</b> Bu belgenin geçerliliği, ön yüzdeki kare kodla veya
+      <b>epnexusgames.com/dogrula</b> adresinden sertifika numarası girilerek sorgulanabilir.
+      Belge Open Badges 3.0 uyumludur ve dijital rozet olarak paylaşılabilir.
+      <br><b>Marka kullanımı.</b> Belge sahibi, unvanını EPNEXUS Marka Kullanım ve Etik Sözleşmesi
+      (Yönetmelik EK-A) sınırları içinde kullanır. Belge, EPNEXUS adına sözleşme yapma
+      veya tahsilat yetkisi vermez.
+    </div>
+    <div class="foot">
+      <div>EPNEXUS · Education Phygital Games<br>epnexusgames.com · epnexus2026@gmail.com</div>
+      <div style="text-align:right">Sertifika no {{SERTIFIKA_NO}}<br>Sürüm v1.0 · Bu belge kopyalanamaz ve devredilemez</div>
+    </div>
+  </div>
+</div></body></html>

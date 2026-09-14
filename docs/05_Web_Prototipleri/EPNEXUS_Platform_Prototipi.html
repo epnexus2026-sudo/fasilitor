@@ -1,0 +1,1345 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>html{color-scheme:light}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>EPNEXUS Fasilitatör Ağı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --ground:#EFF1EE;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8F6;
+  --ink:#14201D;
+  --ink-2:#3B4A46;
+  --muted:#697773;
+  --line:#D9DEDA;
+  --line-soft:#E7EBE7;
+  --accent:#0D6157;
+  --accent-soft:#DCEBE7;
+  --accent-ink:#094840;
+  --gold:#A8751B;
+  --gold-soft:#F5EAD3;
+  --ok:#2F7A4D;
+  --ok-soft:#E0F0E5;
+  --warn:#A8681A;
+  --warn-soft:#F8EBD7;
+  --crit:#A93C2E;
+  --crit-soft:#F8E3DF;
+  --shadow:0 1px 2px rgba(20,32,29,.06), 0 8px 24px -12px rgba(20,32,29,.18);
+  --shadow-lift:0 2px 6px rgba(20,32,29,.08), 0 18px 40px -18px rgba(20,32,29,.28);
+  --r:10px;
+  --r-lg:16px;
+  --f-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --f-body:"Manrope","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E1614;
+    --surface:#16211E;
+    --surface-2:#1B2825;
+    --ink:#E8EDEA;
+    --ink-2:#B9C5C1;
+    --muted:#8A9995;
+    --line:#2A3A36;
+    --line-soft:#233130;
+    --accent:#4FBFA9;
+    --accent-soft:#16342E;
+    --accent-ink:#8FDCCB;
+    --gold:#D9A94A;
+    --gold-soft:#332812;
+    --ok:#5FC286;
+    --ok-soft:#173124;
+    --warn:#D9A04A;
+    --warn-soft:#33270F;
+    --crit:#E08476;
+    --crit-soft:#3A211C;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+    --shadow-lift:0 2px 8px rgba(0,0,0,.5), 0 20px 44px -20px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E1614; --surface:#16211E; --surface-2:#1B2825;
+  --ink:#E8EDEA; --ink-2:#B9C5C1; --muted:#8A9995;
+  --line:#2A3A36; --line-soft:#233130;
+  --accent:#4FBFA9; --accent-soft:#16342E; --accent-ink:#8FDCCB;
+  --gold:#D9A94A; --gold-soft:#332812;
+  --ok:#5FC286; --ok-soft:#173124;
+  --warn:#D9A04A; --warn-soft:#33270F;
+  --crit:#E08476; --crit-soft:#3A211C;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  --shadow-lift:0 2px 8px rgba(0,0,0,.5), 0 20px 44px -20px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:var(--f-body);font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:600;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.mono{font-family:var(--f-mono);font-size:.82em;letter-spacing:-.01em}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- shell ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;background:var(--surface);
+  border-bottom:1px solid var(--line);
+}
+.topbar-in{
+  max-width:1220px;margin:0 auto;padding:0 16px;
+  display:flex;align-items:center;gap:14px;min-height:56px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--f-display);font-weight:700;font-size:17px;letter-spacing:-.02em}
+.brand .mk{
+  width:26px;height:26px;border-radius:7px;background:var(--accent);color:#fff;
+  display:grid;place-items:center;font-family:var(--f-body);font-weight:800;font-size:12px;flex:none;
+}
+:root[data-theme="dark"] .brand .mk, :root:not([data-theme="light"]) .brand .mk{color:#08201C}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .brand .mk{color:#fff}}
+
+.modeswitch{display:flex;gap:2px;background:var(--surface-2);border:1px solid var(--line);border-radius:99px;padding:3px}
+.modeswitch button{padding:5px 13px;border-radius:99px;font-size:13px;font-weight:600;color:var(--muted)}
+.modeswitch button[aria-pressed="true"]{background:var(--accent);color:#fff}
+:root[data-theme="dark"] .modeswitch button[aria-pressed="true"]{color:#08201C}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .modeswitch button[aria-pressed="true"]{color:#08201C}}
+
+.topspacer{flex:1}
+.demopill{
+  font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--warn-soft);color:var(--warn);padding:4px 9px;border-radius:99px;white-space:nowrap;
+}
+.iconbtn{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;border:1px solid var(--line);color:var(--muted)}
+.iconbtn:hover{color:var(--ink);border-color:var(--accent)}
+
+.nxchip{
+  display:flex;align-items:center;gap:7px;background:var(--accent-soft);color:var(--accent-ink);
+  border-radius:99px;padding:5px 12px 5px 9px;font-weight:700;font-size:13px;
+}
+.nxchip .dot{width:16px;height:16px;border-radius:50%;background:var(--accent);flex:none}
+.nxchip.bump{animation:bump .5s ease}
+@keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.14)}100%{transform:scale(1)}}
+
+/* public nav */
+.pubnav{border-bottom:1px solid var(--line);background:var(--surface)}
+.pubnav-in{max-width:1220px;margin:0 auto;padding:0 16px;display:flex;gap:4px;overflow-x:auto}
+.pubnav button{
+  padding:11px 12px;font-size:14px;font-weight:600;color:var(--muted);
+  border-bottom:2px solid transparent;white-space:nowrap;
+}
+.pubnav button[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+
+/* layout */
+.wrap{max-width:1220px;margin:0 auto;padding-inline:16px;padding-block:28px 64px}
+.panel-layout{display:grid;grid-template-columns:212px 1fr;gap:26px;align-items:start}
+@media (max-width:860px){.panel-layout{grid-template-columns:1fr;gap:16px}}
+
+.sidenav{
+  position:sticky;top:72px;display:flex;flex-direction:column;gap:2px;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:8px;
+}
+@media (max-width:860px){.sidenav{position:static;flex-direction:row;overflow-x:auto;border-radius:var(--r)}}
+.sidenav button{
+  display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;
+  font-size:13.5px;font-weight:600;color:var(--ink-2);text-align:left;white-space:nowrap;
+}
+.sidenav button:hover{background:var(--surface-2)}
+.sidenav button[aria-current="page"]{background:var(--accent-soft);color:var(--accent-ink)}
+.sidenav .ic{width:18px;text-align:center;flex:none;opacity:.8}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px}
+.card.flat{border-radius:var(--r);padding:14px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:880px){.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.sec-h h2{font-size:21px}
+.lede{color:var(--ink-2);max-width:66ch}
+
+.btn{
+  display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;
+  padding:9px 16px;border-radius:9px;font-weight:700;font-size:14px;transition:filter .15s;
+}
+.btn:hover{filter:brightness(1.08)}
+:root[data-theme="dark"] .btn{color:#08201C}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{color:#08201C}}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn.sm{padding:6px 12px;font-size:13px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+
+.tag{
+  display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;
+  padding:3px 8px;border-radius:6px;background:var(--surface-2);color:var(--muted);
+  border:1px solid var(--line-soft);
+}
+.tag.acc{background:var(--accent-soft);color:var(--accent-ink);border-color:transparent}
+.tag.gold{background:var(--gold-soft);color:var(--gold);border-color:transparent}
+.tag.ok{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.tag.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.tag.crit{background:var(--crit-soft);color:var(--crit);border-color:transparent}
+
+.bar{height:6px;border-radius:99px;background:var(--line-soft);overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .6s cubic-bezier(.22,1,.36,1)}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:0 10px 8px}
+td{padding:9px 10px;border-top:1px solid var(--line-soft);vertical-align:middle}
+.tscroll{overflow-x:auto}
+tbody tr.me{background:var(--accent-soft)}
+tbody tr.me td{color:var(--accent-ink);font-weight:700}
+
+input,select,textarea{
+  width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line);border-radius:8px;padding:8px 10px;
+}
+textarea{min-height:74px;resize:vertical}
+label{display:block;font-size:12px;font-weight:700;color:var(--ink-2);margin-bottom:5px}
+.field{margin-bottom:12px}
+
+.toast{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:90;
+  background:var(--ink);color:var(--ground);padding:11px 18px;border-radius:99px;
+  font-size:13.5px;font-weight:600;box-shadow:var(--shadow-lift);
+  opacity:0;pointer-events:none;transition:opacity .25s, transform .25s;
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+/* ---------- public hero ---------- */
+.hero{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:34px 28px;display:grid;grid-template-columns:1.25fr .95fr;gap:34px;align-items:center;
+  position:relative;overflow:hidden;
+}
+@media (max-width:840px){.hero{grid-template-columns:1fr;padding:24px 18px;gap:22px}}
+.hero h1{font-size:clamp(28px,4.2vw,44px);line-height:1.08;font-weight:600}
+.hero h1 em{font-style:normal;color:var(--accent);font-weight:700}
+.hero .lede{margin-top:14px;font-size:16px}
+.hero-cta{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+
+.chain{display:flex;flex-direction:column;gap:5px}
+.chain .step{
+  display:flex;align-items:center;gap:9px;background:var(--surface-2);
+  border:1px solid var(--line-soft);border-radius:8px;padding:7px 11px;font-size:13px;font-weight:600;
+}
+.chain .step .n{
+  font-family:var(--f-mono);font-size:10px;color:var(--accent);
+  border:1px solid var(--accent);border-radius:4px;padding:1px 4px;flex:none;
+}
+.chain .step.hl{background:var(--accent-soft);border-color:transparent;color:var(--accent-ink)}
+.chain .arrow{text-align:center;color:var(--muted);font-size:11px;line-height:1}
+
+.statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-top:16px}
+@media (max-width:640px){.statrow{grid-template-columns:repeat(2,1fr)}}
+.statrow .s{background:var(--surface);padding:15px 16px}
+.statrow .v{font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1.1}
+.statrow .k{font-size:12px;color:var(--muted);margin-top:3px}
+
+/* game cards */
+.game{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.game .top{padding:16px 16px 0;display:flex;flex-direction:column;gap:8px}
+.game .strip{height:5px}
+.game h3{font-size:18px}
+.game .body{padding:0 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.game .meta{display:flex;gap:6px;flex-wrap:wrap}
+.game .desc{font-size:13.5px;color:var(--ink-2)}
+.contents{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line-soft);padding-top:9px;margin-top:auto}
+
+.skillbar{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:12.5px;padding:3px 0}
+.pips{display:flex;gap:3px}
+.pip{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.pip.on{background:var(--accent)}
+
+/* tier cards */
+.tier{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px;display:flex;flex-direction:column;gap:11px}
+.tier.feature{border-color:var(--accent);box-shadow:var(--shadow-lift);position:relative}
+.tier.feature::before{
+  content:"En çok seçilen";position:absolute;top:-10px;left:18px;background:var(--accent);color:#fff;
+  font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:99px;
+}
+:root[data-theme="dark"] .tier.feature::before{color:#08201C}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tier.feature::before{color:#08201C}}
+.tier .price{font-family:var(--f-display);font-size:30px;font-weight:700;line-height:1}
+.tier .price small{display:block;font-family:var(--f-body);font-size:12px;font-weight:600;color:var(--muted);margin-top:3px}
+.tier ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px;font-size:13.5px;color:var(--ink-2);flex:1}
+.tier li{display:flex;gap:8px;align-items:flex-start}
+.tier li::before{content:"";width:15px;height:15px;border-radius:50%;background:var(--accent-soft);flex:none;margin-top:2px;
+  background-image:linear-gradient(45deg,transparent 44%,var(--accent) 44%,var(--accent) 56%,transparent 56%),linear-gradient(-45deg,transparent 44%,var(--accent) 44%,var(--accent) 56%,transparent 56%);
+  background-size:7px 2px,7px 2px;background-position:3px 8px,6px 7px;background-repeat:no-repeat}
+
+/* rank ring */
+.rank{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.ring{position:relative;width:112px;height:112px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring .mid{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1.15}
+.ring .mid b{font-family:var(--f-display);font-size:22px;font-weight:700;display:block}
+.ring .mid span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+
+.ladder{display:flex;flex-direction:column;gap:3px;min-width:190px;flex:1}
+.rung{display:flex;align-items:center;gap:9px;font-size:13px;padding:5px 9px;border-radius:7px;color:var(--muted)}
+.rung.done{color:var(--ink-2)}
+.rung.cur{background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
+.rung .t{flex:1}
+.rung .req{font-family:var(--f-mono);font-size:11px}
+
+.todo{display:flex;align-items:center;gap:12px;padding:11px 13px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.todo .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;flex:none;font-size:15px}
+.todo .t{flex:1;min-width:0}
+.todo .t b{display:block;font-size:14px}
+.todo .t span{font-size:12.5px;color:var(--muted)}
+
+.feed{display:flex;flex-direction:column}
+.feed .row{display:flex;gap:11px;align-items:center;padding:9px 0;border-top:1px solid var(--line-soft);font-size:13.5px}
+.feed .row:first-child{border-top:0}
+.feed .row .amt{margin-left:auto;font-family:var(--f-mono);font-size:12.5px;font-weight:500;color:var(--accent);white-space:nowrap}
+
+/* modules */
+.mod{display:flex;gap:13px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.mod .code{
+  font-family:var(--f-mono);font-size:12px;font-weight:500;width:34px;height:34px;border-radius:8px;
+  display:grid;place-items:center;flex:none;background:var(--surface-2);color:var(--muted);border:1px solid var(--line-soft);
+}
+.mod.done .code{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.mod.cur .code{background:var(--accent-soft);color:var(--accent-ink);border-color:transparent}
+.mod .info{flex:1;min-width:0}
+.mod .info b{display:block;font-size:14.5px}
+.mod .info span{font-size:12.5px;color:var(--muted)}
+
+/* badges */
+.badge{
+  display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;
+  padding:15px 10px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);
+}
+.badge .em{font-size:26px;line-height:1;filter:grayscale(1);opacity:.32}
+.badge.have .em{filter:none;opacity:1}
+.badge b{font-size:12.5px;line-height:1.25}
+.badge span{font-size:11px;color:var(--muted)}
+.badge.have{border-color:var(--accent)}
+.badge.rare.have{border-color:var(--gold);background:var(--gold-soft)}
+
+/* store */
+.prod{display:flex;gap:13px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);flex-wrap:wrap}
+.prod .sw{width:42px;height:42px;border-radius:9px;flex:none}
+.prod .nm{flex:1;min-width:150px}
+.prod .nm b{display:block;font-size:14.5px}
+.prod .nm span{font-size:12px;color:var(--muted)}
+.prod .pr{text-align:right;min-width:118px}
+.prod .pr b{font-family:var(--f-display);font-size:17px;font-weight:700;display:block}
+.prod .pr del{font-size:12px;color:var(--muted)}
+
+.tabs{display:flex;gap:3px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px;width:fit-content;max-width:100%;overflow-x:auto}
+.tabs button{padding:6px 13px;border-radius:8px;font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
+.tabs button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+.note{
+  border-left:3px solid var(--gold);background:var(--gold-soft);color:var(--ink-2);
+  padding:11px 14px;border-radius:0 var(--r) var(--r) 0;font-size:13.5px;
+}
+.note b{color:var(--ink)}
+
+.dirfacil{display:flex;gap:12px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;font-weight:800;font-size:13px;background:var(--accent-soft);color:var(--accent-ink)}
+
+.faq{border-top:1px solid var(--line-soft);padding:12px 0}
+.faq:first-of-type{border-top:0}
+.faq b{display:block;font-size:14.5px;margin-bottom:4px}
+.faq p{font-size:13.5px;color:var(--ink-2)}
+
+footer.site{border-top:1px solid var(--line);margin-top:48px;padding:22px 0;color:var(--muted);font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><span class="mk">EP</span>EPNEXUS</div>
+    <div class="modeswitch" role="group" aria-label="Görünüm">
+      <button id="mSite" aria-pressed="true">Site</button>
+      <button id="mPanel" aria-pressed="false">Fasilitatör Paneli</button>
+    </div>
+    <div class="topspacer"></div>
+    <span class="demopill">Prototip · demo verisi</span>
+    <div id="nxChip" class="nxchip" hidden><span class="dot"></span><span class="num" id="nxVal">0</span> NX</div>
+    <button class="iconbtn" id="themeBtn" title="Tema değiştir" aria-label="Tema değiştir">◐</button>
+  </div>
+</div>
+
+<nav class="pubnav" id="pubnav">
+  <div class="pubnav-in" id="pubnavIn"></div>
+</nav>
+
+<main class="wrap" id="app"></main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   EPNEXUS Fasilitatör Ağı — tıklanabilir prototip
+   Tüm veriler demo amaçlıdır. Oyun bilgileri ve fiyatlar
+   EPNEXUS Ürün Kataloğu (Ağustos 2026) verilerinden alınmıştır.
+   ============================================================ */
+
+const GAMES = [
+  { id:'hazine', ad:'Hazineleri Topla', sinif:5, tema:'Hazine avı · strateji',
+    meb:'MAT.5.2.1', epn:'EPN-ALG-EXP-004', konu:'Eşitliğin korunumu',
+    renk:'#0D6157',
+    ozet:'Oyuncular Hazine Avcısı taşlarının hedef sayılarına ulaşmak için 1–5 değerli mücevherleri yatay ve dikey doğrultuda yerleştirir. Satır ve sütunda doğru toplamı ilk tutturan kazanır.',
+    icerik:'50 mücevher taşı · 2 oyun zemini · 60 Hazine Avcısı taşı · 20 oyun kartı',
+    fiyat:{f100:1400,f500:900,f1000:800},
+    an:'Öğrencinin "ama o zaman diğer taraf bozuluyor" dediği an.',
+    beceri:{islem:2,dikkat:3,hafiza:2,sosyal:3,plan:3,karar:3,yaratici:2,problem:3,muhakeme:3} },
+  { id:'harmonia', ad:'Harmonia', sinif:6, tema:'Örüntü · hafıza',
+    meb:'MAT.5.2.3 · MAT.6.2.2', epn:'EPN-ALG-PAT-006 / 007', konu:'Örüntüler ve genelleme',
+    renk:'#7A4FA3',
+    ozet:'Oyuncular sırayla iki kart seçerek örüntülerin cevaplarını bulur, doğru eşleşmeyi belirler ve kart üzerindeki numara kadar oyun alanında ilerler.',
+    icerik:'1 oyun zemini · örüntü kartları · soru ve şans kartları · fethetme taşları',
+    fiyat:{f100:1500,f500:800,f1000:600},
+    an:'Öğrencinin iki farklı görünümlü örüntüde aynı kuralı fark ettiği an.',
+    beceri:{islem:0,dikkat:3,hafiza:3,sosyal:2,plan:2,karar:2,yaratici:3,problem:2,muhakeme:3} },
+  { id:'salur', ad:"Salur Kazan'ın Maceraları", sinif:7, tema:'Destan · tam sayılar',
+    meb:'MAT.7.2.4', epn:'EPN-CMP-ALG-003', konu:'Tam sayılarla işlem süreçleri',
+    renk:'#A8751B',
+    ozet:'Oyuncular zar, soru ve şans kartlarıyla ilerler; tam sayılarla dört işlem ve işlem önceliği içeren görevleri çözerek kaleye ilk ulaşmaya çalışır.',
+    icerik:'1 oyun zemini · 4 piyon · soru ve şans kartları · 1 zar',
+    fiyat:{f100:1500,f500:850,f1000:650},
+    an:'İşaret hatası yüzünden turda geri kalınan an — ceza not değil, tur.',
+    beceri:{islem:3,dikkat:3,hafiza:2,sosyal:3,plan:3,karar:3,yaratici:2,problem:3,muhakeme:3} },
+  { id:'afrodisias', ad:'Afrodisias', sinif:8, tema:'Antik kent · oran-orantı',
+    meb:'MAT.7.1.5 · 7.1.6 · 7.1.7', epn:'EPN-NUM-RAT-001 / PRO-GEN-024 / PRO-MOD-009', konu:'Oran ve orantı',
+    renk:'#A93C2E',
+    ozet:'Çırak heykeltıraş olarak Tetrapylon\'u yeniden inşa edersiniz. Çırak / Usta / Baş Usta seviyelerinde görev seçilir, zar sorudaki değeri belirler, doğru çözüm mermer ve altın kazandırır.',
+    icerik:'1 zemin · 4 piyon · 1 zar · 160 mermer blok · 124 altın jeton · 60 görev kartı · yapboz parçaları',
+    fiyat:{f100:1800,f500:950,f1000:750},
+    an:'Öğrencinin görev seviyesi seçerken risk–kazanç hesabı yaptığı an.',
+    beceri:{islem:2,dikkat:2,hafiza:1,sosyal:3,plan:3,karar:3,yaratici:2,problem:3,muhakeme:3} },
+];
+
+const SKILL_LABELS = {islem:'Matematiksel işlem',dikkat:'Dikkat & odaklanma',hafiza:'Hafıza & örüntü',sosyal:'Sosyal etkileşim',plan:'Öngörü & planlama',karar:'Hızlı karar verme',yaratici:'Yaratıcılık & esneklik',problem:'Problem çözme',muhakeme:'Matematiksel muhakeme'};
+
+const MODULES = [
+  {k:'M1',ad:'Oyun Temelli Öğrenmenin Temeli',sure:'3 sa',fmt:'Asenkron',u:6,nx:100},
+  {k:'M2',ad:'EPNEXUS Müfredat Çerçevesi ve Kazanım Kodları',sure:'4 sa',fmt:'2 sa asenkron + 2 sa canlı',u:5,nx:100},
+  {k:'M3',ad:'Dört Oyunun Uygulamalı Öğretimi',sure:'6 sa',fmt:'2 sa asenkron + 4 sa canlı atölye',u:5,nx:100},
+  {k:'M4',ad:'Sınıf Yönetimi ve Farklılaştırma',sure:'3 sa',fmt:'2 sa asenkron + 1 sa canlı',u:5,nx:100},
+  {k:'M5',ad:'Oyunla Ölçme-Değerlendirme',sure:'3 sa',fmt:'Asenkron',u:5,nx:100},
+  {k:'M6',ad:'Turnuva, Etkinlik ve Hakemlik',sure:'3 sa',fmt:'2 sa asenkron + 1 sa canlı',u:5,nx:100},
+  {k:'M7',ad:'Fasilitatörün Ticari ve Etik Tarafı',sure:'2 sa',fmt:'Asenkron',u:4,nx:100},
+  {k:'M8',ad:'Oyun Tasarımına Giriş: Varyant Üretimi',sure:'3 sa',fmt:'Asenkron',u:5,nx:100},
+];
+
+const MODULES2 = [
+  {k:'KM1',ad:'Uzman Pedagoji: Kavram Yanılgıları ve Veri Okuma',sure:'3 sa',fmt:'2 sa asenkron + 1 sa kamp'},
+  {k:'KM2',ad:'Program Tasarımı: Satılabilir Ürün Kurmak',sure:'3 sa',fmt:'1 sa asenkron + 2 sa kamp'},
+  {k:'KM3',ad:'Turnuva Direktörlüğü ve Hakem Kurulu',sure:'3 sa',fmt:'1 sa asenkron + 2 sa kamp'},
+  {k:'KM4',ad:'Kurumsal Satış ve İş Geliştirme',sure:'3 sa',fmt:'1 sa asenkron + 2 sa kamp'},
+  {k:'KM5',ad:'Atölye İşletmeciliği: Hukuk, Vergi, KVKK',sure:'2 sa',fmt:'1 sa asenkron + 1 sa panel'},
+  {k:'KM6',ad:'Mentorluk, Kalibrasyon ve Marka Temsili',sure:'2 sa',fmt:'2 sa kamp'},
+  {k:'KM7',ad:'İleri Oyun Tasarımı: Özgün Prototip',sure:'2 sa',fmt:'Asenkron'},
+];
+
+const MODULES3 = [
+  {k:'MM1',ad:'Yetişkin Öğreneni Anlamak',sure:'3 sa',fmt:'Asenkron'},
+  {k:'MM2',ad:'Eğitim Tasarımı ve Mikro Öğretim',sure:'4 sa',fmt:'1 sa asenkron + 3 sa kamp'},
+  {k:'MM3',ad:'Kamp ve Kohort Yönetimi',sure:'3 sa',fmt:'1 sa asenkron + 2 sa kamp'},
+  {k:'MM4',ad:'Yüksek Bahisli Değerlendirme',sure:'4 sa',fmt:'1 sa asenkron + 3 sa kamp'},
+  {k:'MM5',ad:'Marka Sesi ve İçerik Standardı',sure:'2 sa',fmt:'1 sa asenkron + 1 sa kamp'},
+  {k:'MM6',ad:'Eğitmenlik İşletmesi',sure:'4 sa',fmt:'1 sa asenkron + 3 sa kamp'},
+  {k:'MM7',ad:'Ürün Kurulu ve Ar-Ge Döngüsü',sure:'4 sa',fmt:'4 sa kamp'},
+  {k:'MM8',ad:'Tasarım Mentorluğu ve Oyun Jürisi',sure:'3 sa',fmt:'1 sa asenkron + 2 sa kamp'},
+];
+
+const KADEME_TABLO = [
+  ['Ücret','Ücretsiz','1.950 ₺ (Kurucu) · 3.900 ₺','6.500 ₺','Davetle, ücretsiz'],
+  ['Eğitim süresi','—','27 sa','18 sa (2 gün kamp)','59 sa (+süpervizyon)'],
+  ['Oyun tasarımı çıktısı','—','🌱 Varyant','🌿 Özgün prototip','🌳 Yayın dosyası'],
+  ['Oyun telifi (yayınlanırsa)','—','%4','%10 özgün · %6 ortak','%10 özgün · %6 ortak'],
+  ['Girişi','Serbest','Serbest','Başvuru + seçim','Davet'],
+  ['Geçerlilik','—','2 yıl','3 yıl','2 yıl'],
+  ['Sınav barajı','—','%70','%75','%85'],
+  ['Materyal fiyatı','Perakende','−%15','500\'lü kademe','500\'lü kademe'],
+  ['Kendi kursunu açar','—','—','✓','✓'],
+  ['Turnuva düzenler','—','Sınıf içi','İl/ilçe','İl/ilçe'],
+  ['Mentorluk yapar','—','—','✓','✓'],
+  ['Tasarım jürisi','—','—','Aday','✓'],
+  ['Rapor onaylar','—','—','Ön onay','Onay'],
+  ['Kademe 1 eğitimi verir','—','—','—','✓'],
+  ['Sertifika kararı verir','—','—','—','✓'],
+  ['Gelir payı','—','—','Turnuva %40 · Lisans %15','+ Eğitim %40'],
+];
+
+const RANKS = [
+  {ad:'Kâşif',min:0,hak:'Ücretsiz kaynaklar'},
+  {ad:'Oyuncu',min:500,hak:'PDF kütüphanesi · Kademe 1\'de %10 indirim'},
+  {ad:'Rehber',min:2000,hak:'Aylık kapalı webinar · materyalde ek %5'},
+  {ad:'Usta',min:6000,hak:'Turnuva kontenjan önceliği · beta erişim'},
+  {ad:'Efsane',min:15000,hak:'Master Fasilitatör daveti değerlendirmesi'},
+];
+
+const BADGES = [
+  {em:'💎',ad:'Hazineleri Topla Ustası',k:'5 onaylı uygulama',have:true},
+  {em:'🧩',ad:'Harmonia Ustası',k:'5 onaylı uygulama',have:true},
+  {em:'⚔️',ad:'Salur Kazan Ustası',k:'5 onaylı uygulama',have:false},
+  {em:'🏛️',ad:'Afrodisias Ustası',k:'5 onaylı uygulama',have:false},
+  {em:'🔢',ad:'Tam Sayılar',k:'Kazanım rozeti',have:true},
+  {em:'📐',ad:'Oran & Orantı',k:'Kazanım rozeti',have:false},
+  {em:'🇹🇷',ad:'MEB / Maarif',k:'Müfredat rozeti',have:true},
+  {em:'🌍',ad:'Cambridge',k:'Müfredat rozeti',have:false},
+  {em:'🥇',ad:'Kurucu Fasilitatör',k:'İlk 50 kişi · bir daha verilmez',have:true,rare:true},
+  {em:'🏆',ad:'İlk Turnuva',k:'2027 sezonu',have:false,rare:true},
+  {em:'✈️',ad:'Sınır Ötesi',k:'Yurt dışı uygulama',have:false,rare:true},
+  {em:'🔥',ad:'8 Hafta Seri',k:'Kesintisiz aktiflik',have:false},
+];
+
+const LEAGUE = [
+  {ad:'Mehmet Arıcan',il:'Kocaeli',nx:4120},
+  {ad:'Fatma Şenel',il:'Sakarya',nx:3680},
+  {ad:'Zeynep Aktaş',il:'Sakarya',nx:2840,me:true},
+  {ad:'Burak Demirtaş',il:'Bursa',nx:2610},
+  {ad:'Elif Karaca',il:'Sakarya',nx:2380},
+  {ad:'Onur Yalçın',il:'İstanbul',nx:1950},
+  {ad:'Derya Ünal',il:'Ankara',nx:1720},
+];
+
+const DIRECTORY = [
+  {ad:'Zeynep Aktaş',il:'Sakarya / Adapazarı',kd:2,oyun:'4 oyun',uyg:14},
+  {ad:'Fatma Şenel',il:'Sakarya / Serdivan',kd:2,oyun:'4 oyun',uyg:19},
+  {ad:'Mehmet Arıcan',il:'Kocaeli / İzmit',kd:2,oyun:'4 oyun',uyg:23},
+  {ad:'Elif Karaca',il:'Sakarya / Hendek',kd:1,oyun:'3 oyun',uyg:8},
+  {ad:'Burak Demirtaş',il:'Bursa / Nilüfer',kd:1,oyun:'2 oyun',uyg:6},
+  {ad:'Hamza S.',il:'Hollanda / Rotterdam',kd:1,oyun:'IB · 2 oyun',uyg:5},
+];
+
+/* ---------------- state ---------------- */
+const S = {
+  mode:'site',
+  page:'ana',
+  ppage:'dash',
+  nx:2840,
+  streak:5,
+  doneModules:['M1','M2','M3','M4'],
+  kademe:1,
+  storeTier:'k1',
+  leagueTab:'il',
+  modTab:'k1',
+  tasarim:{ad:'Kesir Terazisi', alan:'Matematik', sinif:5, meb:'MAT.5.1.4', mek:'Hedef toplam / kısıt dengeleme',
+           kart:true, proto:true, kural:true, test:false, rev:false, gonderildi:false},
+  reports:[
+    {oyun:'Hazineleri Topla',okul:'Adapazarı Ortaokulu',sinif:'5-B',kisi:26,tarih:'02.09.2026',durum:'onayli'},
+    {oyun:'Harmonia',okul:'Adapazarı Ortaokulu',sinif:'6-A',kisi:24,tarih:'19.08.2026',durum:'onayli'},
+    {oyun:'Hazineleri Topla',okul:'Özel Serdivan Koleji',sinif:'5-A',kisi:18,tarih:'11.08.2026',durum:'onayli'},
+    {oyun:'Salur Kazan',okul:'Adapazarı Ortaokulu',sinif:'7-C',kisi:28,tarih:'05.09.2026',durum:'bekliyor'},
+  ],
+};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tl = n => n.toLocaleString('tr-TR');
+
+function toast(msg){
+  const t=$('#toast'); t.textContent=msg; t.classList.add('on');
+  clearTimeout(t._x); t._x=setTimeout(()=>t.classList.remove('on'),2100);
+}
+function addNX(n,msg){
+  S.nx+=n;
+  const c=$('#nxChip'); c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump');
+  $('#nxVal').textContent=tl(S.nx);
+  toast(msg+'  +'+n+' NX');
+}
+function rankOf(nx){
+  let cur=RANKS[0], nxt=RANKS[1];
+  RANKS.forEach((r,i)=>{ if(nx>=r.min){cur=r; nxt=RANKS[i+1]||null;} });
+  return {cur,nxt};
+}
+
+/* ---------------- public pages ---------------- */
+const PUB = [
+  ['ana','Ana sayfa'],['oyunlar','Oyunlar'],['fasilitator','Fasilitatör Ol'],
+  ['dizin','Fasilitatör Bul'],['lig','Lig & Turnuvalar'],
+];
+const PAN = [
+  ['dash','◎','Kontrol Paneli'],['akademi','▤','Akademi'],['rapor','✎','Uygulamalarım'],
+  ['atolye','◆','Oyun Atölyesi'],['rozet','◈','Rozetler & Sertifika'],['liglig','⚑','Lig'],
+  ['magaza','▣','Fasilitatör Mağazası'],['yonetim','⚙','Yönetim (Master)'],
+];
+
+const HAVUZ = [
+  {ad:'Değerlik Dengesi',tas:'Selim Aydın',alan:'Fen',sinif:7,mek:'Hedef toplam',olg:'tohum',puan:72,test:26},
+  {ad:'Ek Avcıları',tas:'Nurten Baş',alan:'Türkçe',sinif:6,mek:'Eşleştirme + kural',olg:'tohum',puan:68,test:24},
+  {ad:'Zaman Şeridi',tas:'Mehmet Arıcan',alan:'Sosyal',sinif:5,mek:'Yol + görev',olg:'prototip',puan:81,test:52},
+  {ad:'Tense Tüccarı',tas:'Derya Ünal',alan:'İngilizce',sinif:8,mek:'Kaynak + risk',olg:'tohum',puan:65,test:19},
+  {ad:'Besin Zinciri',tas:'Fatma Şenel',alan:'Fen',sinif:6,mek:'Motor kurma',olg:'prototip',puan:86,test:61},
+  {ad:'Sayı Bahçesi',tas:'Elif Karaca',alan:'Okul öncesi',sinif:0,mek:'Set toplama',olg:'yayin',puan:91,test:104},
+];
+const OLG = {tohum:['🌱','Tohum','var(--ok-soft)','var(--ok)'],prototip:['🌿','Prototip','var(--accent-soft)','var(--accent-ink)'],
+             yayin:['🌳','Yayın adayı','var(--gold-soft)','var(--gold)'],yayinlandi:['⭐','Yayınlandı','var(--warn-soft)','var(--warn)']};
+
+function pipRow(label,n){
+  return `<div class="skillbar"><span>${label}</span><span class="pips">${[1,2,3].map(i=>`<span class="pip ${i<=n?'on':''}"></span>`).join('')}</span></div>`;
+}
+
+function pageAna(){
+  return `
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Ulusal ve uluslararası fasilitatör ağı</span>
+      <h1 style="margin-top:10px">Matematiği <em>oyunun içine</em> koyan öğretmenlerin ağı.</h1>
+      <p class="lede">EPNEXUS oyunu derse eklemez — müfredat kazanımını oyun tasarımının temeli yapar. Sertifikalı fasilitatörler bu kurguyu kendi sınıflarına, kurslarına ve turnuvalarına taşır.</p>
+      <div class="hero-cta">
+        <button class="btn" data-go="fasilitator">Fasilitatör Ol</button>
+        <button class="btn ghost" data-go="oyunlar">Oyunları incele</button>
+      </div>
+    </div>
+    <div class="chain" aria-label="EPNEXUS müfredat zinciri">
+      <div class="step hl"><span class="n">01</span> Müfredat</div>
+      <div class="arrow">↓</div>
+      <div class="step"><span class="n">02</span> Kazanım</div>
+      <div class="arrow">↓</div>
+      <div class="step"><span class="n">03</span> Beceri</div>
+      <div class="arrow">↓</div>
+      <div class="step"><span class="n">04</span> Oyun mekaniği</div>
+      <div class="arrow">↓</div>
+      <div class="step"><span class="n">05</span> Oyuncu deneyimi</div>
+      <div class="arrow">↓</div>
+      <div class="step hl"><span class="n">06</span> Veri → Analiz → Ar-Ge</div>
+    </div>
+  </section>
+
+  <div class="statrow">
+    <div class="s"><div class="v num">30+</div><div class="k">devlet okulu (Sakarya, 3 yıl)</div></div>
+    <div class="s"><div class="v num">3.000+</div><div class="k">öğrenci, öğretmen ve yönetici</div></div>
+    <div class="s"><div class="v num">8,7<span style="font-size:16px;color:var(--muted)">/10</span></div><div class="k">anonim kullanıcı memnuniyeti</div></div>
+    <div class="s"><div class="v num">0,544</div><div class="k">meta-analiz etki büyüklüğü</div></div>
+  </div>
+
+  <section style="margin-top:34px">
+    <div class="sec-h"><h2>Fasilitatör ağı nasıl çalışır?</h2></div>
+    <div class="grid g4">
+      ${[
+        ['01','Kâşif','Ücretsiz üye ol, kaynaklara eriş, NX puanı biriktirmeye başla.'],
+        ['02','Sertifikalı Fasilitatör','24 saatlik eğitimi tamamla, 3 uygulama raporu yükle, unvanını al.'],
+        ['03','Kıdemli Fasilitatör','10 uygulama ve 1 turnuvadan sonra kendi atölyeni aç, bölge talebinde öncelik kazan.'],
+        ['04','Master Fasilitatör','Davetle. Kademe 1 eğitimi ver, eğitim gelirinden pay al, ürün kuruluna katıl.'],
+      ].map(([n,t,d])=>`<div class="card"><span class="mono" style="color:var(--accent)">${n}</span><h3 style="font-size:16px;margin:7px 0 6px">${t}</h3><p style="font-size:13.5px;color:var(--ink-2)">${d}</p></div>`).join('')}
+    </div>
+  </section>
+
+  <section style="margin-top:34px">
+    <div class="sec-h"><h2>Neden bu ağ?</h2><button class="btn ghost sm" data-go="fasilitator">Kademeleri gör</button></div>
+    <div class="grid g3">
+      <div class="card"><h3 style="font-size:16px;margin-bottom:7px">Sertifika değil, yetki</h3><p style="font-size:13.5px;color:var(--ink-2)">Her kademe somut bir ekonomik hak açar: materyal fiyat kademesi, atölye açma yetkisi, turnuva düzenleme hakkı, bölge talep önceliği.</p></div>
+      <div class="card"><h3 style="font-size:16px;margin-bottom:7px">Kazanıma bağlı kanıt</h3><p style="font-size:13.5px;color:var(--ink-2)">Her uygulama MEB kazanım kodu ve EPNEXUS Evrensel Kazanım Kodu ile raporlanır. Veliye ve idareye gösterilecek belge fasilitatörün elinde olur.</p></div>
+      <div class="card"><h3 style="font-size:16px;margin-bottom:7px">Ağ sana müşteri getirir</h3><p style="font-size:13.5px;color:var(--ink-2)">EPNEXUS'a gelen okul ve veli talepleri bölgedeki aktif fasilitatöre yönlendirilir. Kademe 2 önceliklidir.</p></div>
+    </div>
+  </section>
+
+  <div class="note" style="margin-top:28px"><b>Akademik dayanak.</b> Mert &amp; Koparan (2024), 32 çalışmayı kapsayan meta-analizinde eğitsel oyunların matematik başarısına etkisini 0,544 (orta düzey) olarak raporlamıştır. <span class="mono">Karaelmas Eğitim Bilimleri Dergisi, 12(1), 45-60</span></div>
+  `;
+}
+
+function pageOyunlar(){
+  return `
+  <div class="sec-h"><div><h2>Oyunlar</h2><p class="lede" style="margin-top:5px">Dört kutulu oyun, dört müfredat kazanımı. Her oyun bir EPNEXUS Evrensel Kazanım Kodu taşır — aynı kutu farklı ülkelerin müfredatlarında aynı kodla kullanılır.</p></div></div>
+  <div class="grid g2">
+  ${GAMES.map(g=>`
+    <article class="game">
+      <div class="strip" style="background:${g.renk}"></div>
+      <div class="top">
+        <div class="meta">
+          <span class="tag acc">${g.sinif}. sınıf</span>
+          <span class="tag mono">${esc(g.meb)}</span>
+        </div>
+        <h3>${esc(g.ad)}</h3>
+        <span class="eyebrow">${esc(g.tema)}</span>
+      </div>
+      <div class="body">
+        <p class="desc">${esc(g.ozet)}</p>
+        <div class="tag gold mono" style="align-self:flex-start">${esc(g.epn)}</div>
+        <div style="border-top:1px solid var(--line-soft);padding-top:9px">
+          <div class="eyebrow" style="margin-bottom:5px">Beceri profili</div>
+          ${Object.entries(g.beceri).filter(([,v])=>v>0).map(([k,v])=>pipRow(SKILL_LABELS[k],v)).join('')}
+        </div>
+        <div style="background:var(--accent-soft);color:var(--accent-ink);border-radius:8px;padding:9px 11px;font-size:12.5px">
+          <b>Kritik an:</b> ${esc(g.an)}
+        </div>
+        <div class="contents"><b>Kutu içeriği:</b> ${esc(g.icerik)}</div>
+      </div>
+    </article>`).join('')}
+  </div>`;
+}
+
+function pageFasilitator(){
+  const tiers = [
+    {ad:'Kâşif',fiyat:'Ücretsiz',alt:'Kademe 0',feat:false,list:[
+      'Ücretsiz print-and-play mini oyun','Kazanım eşleme tablosu örneği','Topluluk forumu ve aylık webinar','NX puan biriktirme']},
+    {ad:'Sertifikalı Fasilitatör',fiyat:'1.950 ₺',eski:'3.900 ₺',alt:'Kademe 1 · 27 saat',feat:true,list:[
+      '8 modül, 19 sa asenkron + 8 sa canlı atölye','Sınav + 3 onaylı uygulama raporu','🌱 1 oyun varyantı (kendi branşınızda)','QR doğrulamalı dijital sertifika (2 yıl)','Materyalde %15 indirim','Fasilitatör dizininde yayın','Başlangıç seti dahil']},
+    {ad:'Kıdemli Fasilitatör',fiyat:'6.500 ₺',alt:'Kademe 2 · 18 saat',feat:false,list:[
+      'Ön koşul: 10 uygulama + 1 turnuva + rubrik ≥3,0','🌿 Özgün oyun prototipi (jüri onaylı)','EPNEXUS onaylı atölye/kurs açma yetkisi','Materyalde 500\'lü fiyat kademesi (min. 5 adet)','İl/ilçe turnuvası düzenleme + gelir payı %40','Bölge taleplerinde öncelik','Mentorluk ve rapor ön onayı yetkisi']},
+    {ad:'Master Fasilitatör',fiyat:'Davetle',alt:'Kademe 3 · 59 saat',feat:false,list:[
+      'Ön koşul: 1 yıl aktiflik + 20 mentorluk + 2 turnuva','🌳 Yayına hazır oyun dosyası','Kademe 1 eğitimi verme yetkisi','Eğitim gelirinden %40 pay','Sertifika kararı ve tasarım jürisi yetkisi','Ürün kurulu ve beta test üyeliği']},
+  ];
+  return `
+  <div class="sec-h"><div>
+    <span class="eyebrow">Kurucu Kohort · ilk 50 kişi</span>
+    <h2 style="margin-top:6px">Fasilitatör Ol</h2>
+    <p class="lede" style="margin-top:6px">Her kademe bir unvan değil, bir yetkidir. Ödediğiniz bedelin karşılığı sertifika kâğıdı değil; materyal fiyat kademesi, atölye açma hakkı ve size yönlendirilen taleptir.</p>
+  </div></div>
+
+  <div class="note" style="margin-bottom:18px">
+    <b>Kurucu Kohort.</b> İlk 50 kişi Kademe 1'e <b>1.950 ₺</b> (normal 3.900 ₺) katılıyor ve bir daha kimseye verilmeyecek <b>"Kurucu Fasilitatör" rozetini</b> alıyor. Geri bildirimleri doğrudan müfredata işleniyor.
+  </div>
+
+  <div class="grid g4">
+  ${tiers.map(t=>`
+    <div class="tier ${t.feat?'feature':''}">
+      <div>
+        <div class="eyebrow">${esc(t.alt)}</div>
+        <h3 style="font-size:17px;margin-top:5px">${esc(t.ad)}</h3>
+      </div>
+      <div class="price">${t.eski?`<del style="font-family:var(--f-body);font-size:15px;font-weight:600;color:var(--muted)">${esc(t.eski)}</del> `:''}${esc(t.fiyat)}${t.fiyat!=='Ücretsiz'&&t.fiyat!=='Davetle'?' <small>tek seferlik</small>':''}</div>
+      <ul>${t.list.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>
+      <button class="btn ${t.feat?'':'ghost'} sm" data-enroll="${esc(t.ad)}">${t.fiyat==='Davetle'?'Koşulları gör':'Başvur'}</button>
+    </div>`).join('')}
+  </div>
+
+  <section style="margin-top:34px">
+    <div class="sec-h"><h2>Kademeler tek tabloda</h2><span class="tag">Yönetmelik EK-B</span></div>
+    <div class="card" style="padding:14px">
+      <div class="tscroll"><table>
+        <thead><tr><th></th><th>Kâşif</th><th>Fasilitatör</th><th>Kıdemli</th><th>Master</th></tr></thead>
+        <tbody>${KADEME_TABLO.map(r=>`<tr><td style="font-weight:700">${esc(r[0])}</td>${r.slice(1).map(c=>`<td style="color:${c==='—'?'var(--muted)':'inherit'}">${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section style="margin-top:34px">
+    <div class="sec-h"><h2>Eğitim programı</h2><span class="tag">Kademe 1: her modülde ≥%70 + 3 onaylı uygulama</span></div>
+    <div class="tabs" style="margin-bottom:12px">
+      ${[['k1','Kademe 1 · 24 sa'],['k2','Kademe 2 · 16 sa'],['k3','Kademe 3 · 56 sa']].map(([k,l])=>`<button data-mt="${k}" aria-pressed="${S.modTab===k}">${l}</button>`).join('')}
+    </div>
+    <div class="grid" style="gap:8px">
+      ${(S.modTab==='k1'?MODULES:S.modTab==='k2'?MODULES2:MODULES3).map(m=>`<div class="mod"><div class="code">${m.k}</div><div class="info"><b>${esc(m.ad)}</b><span>${m.sure} · ${esc(m.fmt)}</span></div></div>`).join('')}
+      ${S.modTab==='k3'?`<div class="note" style="margin-top:4px">Kademe 3'te modüllere ek olarak <b>8 saat gölge eğitmenlik</b> ve <b>24 saat süpervizyonlu ko-eğitmenlik</b> vardır. Süreç toplam 3-4 ay sürer.</div>`:''}
+    </div>
+  </section>
+
+  <section style="margin-top:34px" class="card">
+    <h2 style="font-size:19px;margin-bottom:10px">Sık sorulanlar</h2>
+    ${[
+      ['Sertifika MEB\'de geçerli mi?','Program üniversite Sürekli Eğitim Merkezi protokolü kapsamında yürütülür ve sertifika e-Devlet üzerinden sorgulanabilir. Halk Eğitim Merkezlerinde kurs açabilmek için ayrıca eğitim fakültesi mezuniyeti veya pedagojik formasyon ve usta öğreticilik belgesi gerekir.'],
+      ['Öğretmen değilim, katılabilir miyim?','Evet. Kademe 1 eğitimine oyun ve matematiğe ilgi duyan herkes katılabilir. Kurum içinde kurs açma yetkisi ise yukarıdaki resmi koşullara bağlıdır.'],
+      ['Sertifika kaç yıl geçerli?','2 yıl. Yenileme için yılda en az 6 onaylı uygulama raporu veya 2 atölye gerekir — bu koşul ağın aktif kalmasını sağlar.'],
+      ['Oyunları satın almak zorunda mıyım?','Kademe 1 ücretine bir başlangıç seti dahildir. Sınıf uygulamaları için ek set alımı fasilitatör fiyat kademesinden yapılır.'],
+      ['Ağ bana müşteri getiriyor mu?','EPNEXUS\'a gelen okul ve veli talepleri bölgedeki aktif fasilitatörlere yönlendirilir. Kademe 2 fasilitatörleri önceliklidir; atama aktiflik ve rubrik ortalamasına göre yapılır.'],
+    ].map(([q,a])=>`<div class="faq"><b>${esc(q)}</b><p>${esc(a)}</p></div>`).join('')}
+  </section>`;
+}
+
+function pageDizin(){
+  return `
+  <div class="sec-h"><div><h2>Fasilitatör Bul</h2><p class="lede" style="margin-top:5px">Bölgenizdeki EPNEXUS onaylı fasilitatörler. Okulunuz için oturum, atölye veya turnuva talebinde bulunabilirsiniz.</p></div>
+  <button class="btn sm" id="talepBtn">Talep oluştur</button></div>
+  <div class="grid g2">
+  ${DIRECTORY.map(d=>`
+    <div class="dirfacil">
+      <div class="av">${esc(d.ad.split(' ').map(x=>x[0]).join('').slice(0,2))}</div>
+      <div style="flex:1;min-width:0">
+        <b style="font-size:14.5px">${esc(d.ad)}</b>
+        <div style="font-size:12.5px;color:var(--muted)">${esc(d.il)} · ${esc(d.oyun)} · ${d.uyg} onaylı uygulama</div>
+      </div>
+      <span class="tag ${d.kd===2?'acc':''}">Kademe ${d.kd}</span>
+    </div>`).join('')}
+  </div>
+  <div class="note" style="margin-top:20px"><b>Talep yönlendirme.</b> Bu formdan gelen her talep, bölgedeki aktif fasilitatörlere aktiflik ve rubrik ortalamasına göre atanır. Ağın fasilitatörüne gerçek gelir getiren mekanizma budur.</div>`;
+}
+
+function pageLigPublic(){
+  return `
+  <div class="sec-h"><div><h2>EPNEXUS Matematik Oyunları Ligi</h2><p class="lede" style="margin-top:5px">Takım kaydı ücretsizdir; katılım için okulda en az bir oyun seti bulunması yeterlidir. Sezon kontenjanı sınırlıdır ve iller arasında paylaştırılır.</p></div></div>
+  <div class="grid g3">
+    <div class="card"><span class="eyebrow">Ölçek 1</span><h3 style="font-size:17px;margin:6px 0 6px">Sınıf içi mini turnuva</h3><p style="font-size:13.5px;color:var(--ink-2)">1 ders saati · 24-30 öğrenci · 4-6 kutu. Fasilitatörün kendi sınıfında düzenlediği İsviçre sistemi turnuva.</p></div>
+    <div class="card"><span class="eyebrow">Ölçek 2</span><h3 style="font-size:17px;margin:6px 0 6px">Okul şenliği</h3><p style="font-size:13.5px;color:var(--ink-2)">Yarım gün · 100-300 katılımcı · 15-25 kutu. Dört oyun dört istasyon, pasaport kartı, veli katılımı.</p></div>
+    <div class="card"><span class="eyebrow">Ölçek 3</span><h3 style="font-size:17px;margin:6px 0 6px">İl turnuvası</h3><p style="font-size:13.5px;color:var(--ink-2)">1 gün · 200-500 katılımcı. Kademe 2 fasilitatörleri düzenler, katılım ve sponsorluk gelirinden pay alır.</p></div>
+  </div>
+  <section style="margin-top:28px" class="card">
+    <h3 style="font-size:17px;margin-bottom:12px">2027 sezon takvimi</h3>
+    <div class="tscroll"><table>
+      <thead><tr><th>Aşama</th><th>Tarih</th><th>Kapsam</th><th>Durum</th></tr></thead>
+      <tbody>
+        <tr><td>Kayıt açılışı</td><td class="num">5 Ocak 2027</td><td>Tüm iller</td><td><span class="tag">Planlandı</span></td></tr>
+        <tr><td>Sınıf içi turnuvalar</td><td class="num">Şubat – Mart</td><td>Okul içi</td><td><span class="tag">Planlandı</span></td></tr>
+        <tr><td>İl turnuvaları</td><td class="num">11 Nisan 2027</td><td>Pilot 6 il</td><td><span class="tag warn">Kontenjan sınırlı</span></td></tr>
+        <tr><td>Bölge finalleri</td><td class="num">9 Mayıs 2027</td><td>4 bölge</td><td><span class="tag">Planlandı</span></td></tr>
+        <tr><td>Türkiye finali</td><td class="num">30 Mayıs 2027</td><td>Sakarya</td><td><span class="tag">Planlandı</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>`;
+}
+
+/* ---------------- panel pages ---------------- */
+function pageDash(){
+  const {cur,nxt}=rankOf(S.nx);
+  const span = nxt ? (S.nx-cur.min)/(nxt.min-cur.min) : 1;
+  const R=48, C=2*Math.PI*R;
+  const done=S.doneModules.length, total=MODULES.length;
+  const onayli=S.reports.filter(r=>r.durum==='onayli').length;
+  return `
+  <div class="sec-h">
+    <div><span class="eyebrow">İyi çalışmalar</span><h2 style="margin-top:4px">Zeynep Aktaş</h2>
+    <p style="font-size:13px;color:var(--muted)">Sakarya / Adapazarı · Kademe ${S.kademe} · Sertifika geçerli: 14.08.2028</p></div>
+    <span class="tag gold">🔥 ${S.streak} haftalık seri</span>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:14px">
+    <div class="card">
+      <div class="rank">
+        <div class="ring">
+          <svg width="112" height="112" viewBox="0 0 112 112" aria-hidden="true">
+            <circle cx="56" cy="56" r="${R}" fill="none" stroke="var(--line-soft)" stroke-width="9"/>
+            <circle cx="56" cy="56" r="${R}" fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+              stroke-dasharray="${C}" stroke-dashoffset="${C*(1-span)}"/>
+          </svg>
+          <div class="mid"><b class="num">${tl(S.nx)}</b><span>NX</span></div>
+        </div>
+        <div class="ladder">
+          ${RANKS.map(r=>{
+            const st = S.nx>=r.min ? (r.ad===cur.ad?'cur':'done') : '';
+            return `<div class="rung ${st}"><span class="t">${r.ad}</span><span class="req num">${tl(r.min)}</span></div>`;
+          }).join('')}
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:var(--muted);margin-top:12px;border-top:1px solid var(--line-soft);padding-top:10px">
+        ${nxt?`<b style="color:var(--ink)">${tl(nxt.min-S.nx)} NX</b> sonra <b style="color:var(--ink)">${nxt.ad}</b> — ${esc(nxt.hak)}`:'En üst rütbedesiniz.'}
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:11px">Sıradaki görevler</div>
+      <div class="grid" style="gap:8px">
+        <div class="todo">
+          <div class="ic" style="background:var(--accent-soft);color:var(--accent-ink)">▤</div>
+          <div class="t"><b>M5 — Oyunla Ölçme-Değerlendirme</b><span>3 saat · asenkron · +100 NX</span></div>
+          <button class="btn sm" data-pgo="akademi">Devam et</button>
+        </div>
+        <div class="todo">
+          <div class="ic" style="background:var(--gold-soft);color:var(--gold)">✎</div>
+          <div class="t"><b>Afrodisias uygulaması eksik</b><span>Rozet için 5 uygulama gerekiyor · +300 NX</span></div>
+          <button class="btn ghost sm" data-pgo="rapor">Rapor yükle</button>
+        </div>
+        <div class="todo">
+          <div class="ic" style="background:var(--warn-soft);color:var(--warn)">◆</div>
+          <div class="t"><b>Oyun varyantı: 3/5 adım tamam</b><span>Sertifika koşulu · sınıf denemesi ve revizyon kaldı · +500 NX</span></div>
+          <button class="btn ghost sm" data-pgo="atolye">Atölyeye git</button>
+        </div>
+        <div class="todo">
+          <div class="ic" style="background:var(--crit-soft);color:var(--crit)">⚑</div>
+          <div class="t"><b>Kademe 2 için 1 turnuva gerekiyor</b><span>10/10 uygulama tamam · turnuva 0/1</span></div>
+          <button class="btn ghost sm" data-pgo="liglig">Lig takvimi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g4" style="margin-bottom:14px">
+    ${[
+      ['Akademi',`${done}/${total}`,'modül tamamlandı (M8 dahil)',done/total],
+      ['Onaylı uygulama',`${onayli}`,'Kademe 2 için 10 gerekli',Math.min(onayli/10,1)],
+      ['Rubrik ortalaması','3,4','4 üzerinden · son 5 uygulama',3.4/4],
+      ['İl sıralaması','3.','Sakarya ligi · 12 fasilitatör',0.75],
+    ].map(([k,v,d,p])=>`
+      <div class="card flat">
+        <div class="eyebrow">${k}</div>
+        <div style="font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1.1;margin:4px 0 2px" class="num">${v}</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:9px">${d}</div>
+        <div class="bar"><span style="width:${Math.round(p*100)}%"></span></div>
+      </div>`).join('')}
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:8px">Son NX hareketleri</div>
+      <div class="feed">
+        ${[
+          ['✓','M4 modülü tamamlandı','+100'],
+          ['✎','Uygulama raporu onaylandı — 5-B','+300'],
+          ['★','Master geri bildirimi alındı','+50'],
+          ['💬','Forumda çözüm işaretlendi','+40'],
+          ['🔥','5 haftalık seri','+125'],
+        ].map(([i,t,a])=>`<div class="row"><span style="width:20px;text-align:center">${i}</span><span>${t}</span><span class="amt">${a} NX</span></div>`).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:8px">Size yönlendirilen talepler</div>
+      <div class="grid" style="gap:8px">
+        <div class="todo"><div class="ic" style="background:var(--ok-soft);color:var(--ok)">🏫</div>
+          <div class="t"><b>Serdivan Doğa Koleji</b><span>5. sınıf · tanıtım oturumu talebi · 2 gün önce</span></div>
+          <button class="btn sm" data-act="Talep kabul edildi. Okul iletişim bilgileri e-postanıza gönderildi.">Kabul et</button></div>
+        <div class="todo"><div class="ic" style="background:var(--surface-2);color:var(--muted)">👪</div>
+          <div class="t"><b>Veli atölyesi — Adapazarı</b><span>6 aile · hafta sonu · 5 gün önce</span></div>
+          <button class="btn ghost sm" data-act="Talep kabul edildi.">Kabul et</button></div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:11px;border-top:1px solid var(--line-soft);padding-top:9px">
+        Kademe 2'ye geçtiğinizde bölgenizdeki taleplerde <b style="color:var(--ink)">öncelik</b> kazanırsınız.</p>
+    </div>
+  </div>`;
+}
+
+function pageAkademi(){
+  const done=S.doneModules.length;
+  return `
+  <div class="sec-h"><div><h2>Akademi — Kademe 1</h2>
+    <p class="lede" style="margin-top:5px">24 saat · 7 modül. Her modül sonunda %70 baraj vardır. Sertifika için ayrıca 3 onaylı uygulama raporu gerekir.</p></div>
+    <span class="tag acc num">${done}/${MODULES.length} modül</span></div>
+  <div class="bar" style="margin-bottom:16px"><span style="width:${Math.round(done/MODULES.length*100)}%"></span></div>
+  <div class="grid" style="gap:9px">
+  ${MODULES.map((m,i)=>{
+    const isDone=S.doneModules.includes(m.k);
+    const isCur=!isDone && S.doneModules.length===i;
+    return `<div class="mod ${isDone?'done':isCur?'cur':''}">
+      <div class="code">${isDone?'✓':m.k}</div>
+      <div class="info"><b>${esc(m.ad)}</b><span>${m.sure} · ${esc(m.fmt)} · ${m.u} ünite</span></div>
+      ${isDone
+        ? `<span class="tag ok">Tamamlandı</span>`
+        : isCur
+          ? `<button class="btn sm" data-mod="${m.k}">Sınavı geç · +${m.nx} NX</button>`
+          : `<span class="tag">Kilitli</span>`}
+    </div>`;
+  }).join('')}
+  </div>
+  <div class="note" style="margin-top:18px"><b>Prototip notu.</b> Gerçek sistemde "Sınavı geç" yerine video ünite akışı ve havuzdan rastgele çekilen soru seti yer alır. Burada mekanizmayı görebilmeniz için tek tıkla tamamlanıyor.</div>
+
+  <section style="margin-top:26px">
+    <div class="sec-h"><h2 style="font-size:19px">Sıradaki kademe</h2><span class="tag">Kademe 2 · Kıdemli Fasilitatör</span></div>
+    <div class="grid g2" style="align-items:start">
+      <div class="card">
+        <div class="eyebrow" style="margin-bottom:10px">Açılma koşulları</div>
+        ${[['Aktif Kademe 1 sertifikası',1,1],['Onaylı uygulama',3,10],['Turnuva/etkinlik katılımı',0,1],['Rubrik ortalaması (≥3,0)',3.4,3]].map(([k,v,h])=>{
+          const ok = v>=h;
+          return `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--line-soft);font-size:13.5px">
+            <span style="width:18px;color:${ok?'var(--ok)':'var(--muted)'}">${ok?'✓':'○'}</span>
+            <span style="flex:1">${k}</span>
+            <b class="mono" style="color:${ok?'var(--ok)':'var(--muted)'}">${String(v).replace('.',',')}/${String(h).replace('.',',')}</b>
+          </div>`;
+        }).join('')}
+        <p style="font-size:12.5px;color:var(--muted);margin-top:11px">Koşullar tamamlandığında başvuru açılır. Kontenjan dönem başına 30 kişidir; başvuru sonrası dosya incelemesi, niyet formu ve görüşme vardır.</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow" style="margin-bottom:10px">Kademe 2 ne açıyor?</div>
+        <div class="grid" style="gap:7px">
+          ${[['🏫','Kendi kursunu/atölyeni açma yetkisi'],['🏆','İl/ilçe turnuvası düzenleme + gelir payı %40'],['🏷️','Materyalde 500\'lü fiyat kademesi'],['📍','Bölge taleplerinde öncelik'],['🤝','Mentorluk ve rapor ön onayı yetkisi']].map(([i,t])=>`
+            <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><span style="width:20px;text-align:center">${i}</span><span>${t}</span></div>`).join('')}
+        </div>
+        <button class="btn ghost sm" style="margin-top:13px" data-go="fasilitator">Kademe 2 programını incele</button>
+      </div>
+    </div>
+  </section>`;
+}
+
+function pageRapor(){
+  return `
+  <div class="sec-h"><div><h2>Uygulamalarım</h2>
+    <p class="lede" style="margin-top:5px">Onaylanan her uygulama raporu 300 NX kazandırır ve rozet, kademe, sertifika yenileme koşullarını besler. Aynı zamanda EPNEXUS'un saha kanıt havuzunu oluşturur.</p></div></div>
+
+  <div class="grid g2" style="align-items:start">
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:11px">Yeni uygulama raporu</div>
+      <div class="field"><label for="rOyun">Oyun</label>
+        <select id="rOyun">${GAMES.map(g=>`<option>${esc(g.ad)}</option>`).join('')}</select></div>
+      <div class="grid g2" style="gap:10px">
+        <div class="field"><label for="rOkul">Kurum</label><input id="rOkul" value="Adapazarı Ortaokulu"></div>
+        <div class="field"><label for="rSinif">Sınıf</label><input id="rSinif" value="8-A"></div>
+      </div>
+      <div class="grid g2" style="gap:10px">
+        <div class="field"><label for="rKisi">Katılımcı sayısı</label><input id="rKisi" type="number" value="24" min="1"></div>
+        <div class="field"><label for="rKurgu">Kurgu</label>
+          <select id="rKurgu"><option>Gözlemci-oyuncu</option><option>İstasyon</option><option>Turnuva eşlemesi</option><option>Takım oyunu</option></select></div>
+      </div>
+      <div class="field"><label for="rGozlem">En sık gözlenen hata deseni</label>
+        <textarea id="rGozlem" placeholder="Örn. Oranı toplamsal düşünme — iki nicelik arasındaki farkı alıp katsayı yerine kullanma."></textarea></div>
+      <div class="note" style="margin-bottom:12px;font-size:12.5px">Fotoğraf yüklemesinde <b>öğrenci yüzü görünmemelidir.</b> KVKK açık rızası olmadan hiçbir kişisel veri işlenmez.</div>
+      <button class="btn" id="rSubmit">Raporu gönder</button>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="eyebrow" style="margin-bottom:9px">Kazanım gözlem rubriği · son 5 uygulama</div>
+        ${[['Kavramsal anlama',3.6],['İşlem doğruluğu',3.2],['Strateji',3.4],['Gerekçelendirme',3.1]].map(([k,v])=>`
+          <div style="margin-bottom:9px">
+            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>${k}</span><b class="num mono">${String(v).replace('.',',')}/4</b></div>
+            <div class="bar"><span style="width:${v/4*100}%"></span></div>
+          </div>`).join('')}
+      </div>
+      <div class="card">
+        <div class="eyebrow" style="margin-bottom:9px">Rapor geçmişi</div>
+        <div class="tscroll"><table>
+          <thead><tr><th>Oyun</th><th>Kurum</th><th>Sınıf</th><th>Kişi</th><th>Tarih</th><th>Durum</th></tr></thead>
+          <tbody id="repBody">${S.reports.map(r=>`
+            <tr><td>${esc(r.oyun)}</td><td>${esc(r.okul)}</td><td>${esc(r.sinif)}</td><td class="num">${r.kisi}</td><td class="num">${esc(r.tarih)}</td>
+            <td>${r.durum==='onayli'?'<span class="tag ok">Onaylı</span>':'<span class="tag warn">Onay bekliyor</span>'}</td></tr>`).join('')}
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function pageAtolye(){
+  const st = S.tasarim;
+  const steps = [
+    ['Kazanımı seç','tek kazanım, net fiil'],
+    ['Bilişsel süreci aç','öğrenci zihninde ne yapacak?'],
+    ['Yanılgıyı bul','bu kazanımda tipik hata nedir?'],
+    ['Mekaniği seç','o süreci zorunlu kılan mekanik'],
+    ['Kararı yerleştir','oyuncu her turda ne karar verecek?'],
+    ['Geri bildirimi kur','yanlış karar nasıl görünecek?'],
+  ];
+  return `
+  <div class="sec-h"><div><h2>Oyun Atölyesi</h2>
+    <p class="lede" style="margin-top:5px">Her kademe bir oyun üretir. Kademe 1'de mevcut bir EPNEXUS mekaniğini kendi branşınıza uyarlarsınız — özgünlük beklenmez, <b>aktarım</b> beklenir.</p></div>
+    <span class="tag gold">Sertifika koşulu</span></div>
+
+  <div class="grid g2" style="align-items:start;margin-bottom:16px">
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:10px">Tasarımım · ${esc(st.ad)}</div>
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+        <span class="tag acc">${esc(st.alan)} · ${st.sinif}. sınıf</span>
+        <span class="tag mono">${esc(st.meb)}</span>
+        <span class="tag">${esc(st.mek)}</span>
+      </div>
+      <div class="grid" style="gap:7px">
+        ${[['Tasarım kartı',st.kart],['Kâğıt prototip',st.proto],['Kural metni (1 sayfa)',st.kural],['Sınıf denemesi (≥12 öğrenci)',st.test],['Revizyon notu',st.rev]].map(([k,v],i)=>`
+          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--line-soft);font-size:13.5px">
+            <span style="width:18px;color:${v?'var(--ok)':'var(--muted)'}">${v?'✓':'○'}</span>
+            <span style="flex:1">${k}</span>
+            ${v?'<span class="tag ok">Tamam</span>':`<button class="btn ghost sm" data-tas="${i}">İşaretle</button>`}
+          </div>`).join('')}
+      </div>
+      ${st.kart&&st.proto&&st.kural&&st.test&&st.rev
+        ? (st.gonderildi
+            ? `<div class="note" style="margin-top:13px"><b>Jüriye gönderildi.</b> Master Fasilitatör değerlendirmesi 10 iş günü içinde sonuçlanır.</div>`
+            : `<button class="btn" style="margin-top:13px" id="tasGonder">Jüriye gönder · +500 NX</button>`)
+        : `<p style="font-size:12.5px;color:var(--muted);margin-top:11px">Beş parçanın tamamı tamamlanmadan jüriye gönderilemez.</p>`}
+    </div>
+
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:10px">Kazanımdan mekaniğe: altı adım</div>
+      <div class="chain">
+        ${steps.map((s,i)=>`${i?'<div class="arrow">↓</div>':''}<div class="step ${i===3?'hl':''}"><span class="n">0${i+1}</span> <b style="font-weight:700">${s[0]}</b> <span style="font-weight:400;color:var(--muted);font-size:12px">— ${s[1]}</span></div>`).join('')}
+      </div>
+      <div class="note" style="margin-top:12px;font-size:12.5px"><b>Tek test:</b> Kazanımı oyundan çıkarınca oyun çöküyor mu? Çökmüyorsa kazanım oyunun içinde değil <b>üstündedir</b> — buna tematik giydirme denir ve reddedilir.</div>
+    </div>
+  </div>
+
+  <div class="sec-h"><h2 style="font-size:19px">EPNEXUS Oyun Havuzu</h2>
+    <span class="tag">${HAVUZ.length} tasarım · 5 alan</span></div>
+  <div class="grid g3" style="margin-bottom:14px">
+    ${Object.entries({tohum:'Tohum',prototip:'Prototip',yayin:'Yayın adayı'}).map(([k,l])=>{
+      const n=HAVUZ.filter(h=>h.olg===k).length; const o=OLG[k];
+      return `<div class="card flat"><div class="eyebrow">${o[0]} ${l}</div>
+        <div style="font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1.1;margin:4px 0 2px" class="num">${n}</div>
+        <div style="font-size:12px;color:var(--muted)">${k==='tohum'?'Kademe 1 varyantı':k==='prototip'?'Kademe 2 özgün tasarım':'Kademe 3 yayın dosyası'}</div></div>`;
+    }).join('')}
+  </div>
+  <div class="card">
+    <div class="tscroll"><table>
+      <thead><tr><th>Oyun</th><th>Tasarımcı</th><th>Alan</th><th>Mekanik</th><th>Test</th><th>Rubrik</th><th>Olgunluk</th></tr></thead>
+      <tbody>${HAVUZ.map(h=>{const o=OLG[h.olg];return `<tr>
+        <td><b>${esc(h.ad)}</b></td><td style="color:var(--muted)">${esc(h.tas)}</td>
+        <td>${esc(h.alan)}${h.sinif?' · '+h.sinif:''}</td><td style="color:var(--muted)">${esc(h.mek)}</td>
+        <td class="num">${h.test}</td><td class="num mono">${h.puan}</td>
+        <td><span class="tag" style="background:${o[2]};color:${o[3]};border-color:transparent">${o[0]} ${o[1]}</span></td></tr>`}).join('')}</tbody>
+    </table></div>
+  </div>
+
+  <div class="note" style="margin-top:16px"><b>Haklarınız.</b> Tasarladığınız oyunun <b>eser sahibi sizsiniz.</b> EPNEXUS'a verdiğiniz lisans yalnız havuzda yayımlama ve eğitimde örnek gösterme içindir. EPNEXUS bir tasarımı ürünleştirmek isterse ayrı bir yayın sözleşmesi yapılır — telif özgün oyunda net satışın %10'u, varyantta %4'ü, adınız kutu üzerinde. <span class="mono" style="font-size:11.5px">Yönetmelik Md. 13.6-13.11 · EK-C</span></div>`;
+}
+
+function pageRozet(){
+  const have=BADGES.filter(b=>b.have).length;
+  return `
+  <div class="sec-h"><div><h2>Rozetler &amp; Sertifika</h2>
+    <p class="lede" style="margin-top:5px">Rozetler koleksiyon katmanıdır; rütbe ise satın alma gücü taşır. Nadir rozetler bir kez verilir ve tekrar açılmaz.</p></div>
+    <span class="tag acc num">${have}/${BADGES.length}</span></div>
+
+  <div class="card" style="margin-bottom:16px;display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+    <div style="width:74px;height:74px;border-radius:14px;background:var(--accent);display:grid;place-items:center;flex:none;color:#fff;font-family:var(--f-display);font-weight:700;font-size:13px;text-align:center;line-height:1.15">K1<br><span style="font-size:9px;font-family:var(--f-body);letter-spacing:.05em">EPNEXUS</span></div>
+    <div style="flex:1;min-width:200px">
+      <div class="eyebrow">Aktif sertifika</div>
+      <h3 style="font-size:18px;margin:4px 0 3px">Sertifikalı EPNEXUS Oyun Fasilitatörü</h3>
+      <p style="font-size:13px;color:var(--muted)">Veriliş 14.08.2026 · Geçerlilik 14.08.2028 · Open Badges 3.0 uyumlu</p>
+      <p class="mono" style="font-size:11.5px;color:var(--accent);margin-top:5px">EPN-FAC-K1-2026-0037</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn ghost sm" data-act="Doğrulama bağlantısı kopyalandı.">QR doğrulama</button>
+      <button class="btn ghost sm" data-act="LinkedIn paylaşım bağlantısı hazırlandı.">LinkedIn'e ekle</button>
+    </div>
+  </div>
+
+  <div class="note" style="margin-bottom:16px"><b>Yenileme koşulu.</b> Sertifikanın 2028'de yenilenmesi için yılda en az 6 onaylı uygulama raporu veya 2 atölye gerekir. Şu an bu yıl için <b>4/6</b>.</div>
+
+  <div class="grid g4">
+  ${BADGES.map(b=>`<div class="badge ${b.have?'have':''} ${b.rare?'rare':''}">
+    <span class="em">${b.em}</span><b>${esc(b.ad)}</b><span>${esc(b.k)}</span>
+  </div>`).join('')}
+  </div>`;
+}
+
+function pageLigPanel(){
+  const tabs=[['il','Sakarya ligi'],['okul','Okul takımları'],['ulusal','Ulusal']];
+  let rows=LEAGUE;
+  if(S.leagueTab==='il') rows=LEAGUE.filter(r=>r.il==='Sakarya');
+  const okul=[{ad:'Adapazarı Ortaokulu',il:'6 fasilitatör',nx:11240},{ad:'Özel Serdivan Koleji',il:'4 fasilitatör',nx:8910},{ad:'Hendek Şehit Şükrü O.O.',il:'3 fasilitatör',nx:6180}];
+  return `
+  <div class="sec-h"><div><h2>Lig</h2>
+    <p class="lede" style="margin-top:5px">Mutlak sıralama yerine 30 kişilik ligler kullanılır: her ay ilk 5 yükselir, son 5 düşer. Böylece 400. sıradaki fasilitatör de yarışın içinde kalır.</p></div></div>
+
+  <div class="tabs" style="margin-bottom:14px">${tabs.map(([k,l])=>`<button data-lt="${k}" aria-pressed="${S.leagueTab===k}">${l}</button>`).join('')}</div>
+
+  <div class="card">
+    <div class="tscroll"><table>
+      <thead><tr><th>#</th><th>${S.leagueTab==='okul'?'Okul':'Fasilitatör'}</th><th>${S.leagueTab==='okul'?'Ekip':'İl'}</th><th style="text-align:right">NX</th></tr></thead>
+      <tbody>
+      ${(S.leagueTab==='okul'?okul:rows).map((r,i)=>`
+        <tr class="${r.me?'me':''}"><td class="num">${i+1}</td><td>${esc(r.ad)}</td><td style="color:var(--muted)">${esc(r.il)}</td><td class="num mono" style="text-align:right">${tl(r.nx)}</td></tr>`).join('')}
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><div class="eyebrow" style="margin-bottom:8px">Bu ayın ligi</div>
+      <p style="font-size:13.5px;color:var(--ink-2)">Eylül ligi bitimine <b>19 gün</b> kaldı. Şu an <b>3. sıradasınız</b> — ilk 5 içinde kalırsanız Ekim'de bir üst lige yükselirsiniz.</p>
+      <div class="bar" style="margin-top:11px"><span style="width:63%"></span></div>
+    </div>
+    <div class="card"><div class="eyebrow" style="margin-bottom:8px">Yaklaşan etkinlik</div>
+      <p style="font-size:13.5px;color:var(--ink-2)"><b>Sakarya İl Turnuvası</b> · 11 Nisan 2027 · kontenjan 24 takım.<br>Kademe 2 fasilitatörleri düzenleyici olarak başvurabilir.</p>
+      <button class="btn ghost sm" style="margin-top:11px" data-act="Kademe 2 koşulunu tamamladığınızda başvuru açılacak.">Düzenleyici ol</button>
+    </div>
+  </div>`;
+}
+
+function pageMagaza(){
+  const tiers={
+    perakende:{ad:'Perakende (veli/bireysel)',key:'f100',ind:0},
+    k1:{ad:'Kademe 1 fasilitatör (−%15)',key:'f100',ind:.15},
+    k2:{ad:"Kademe 2 fasilitatör (500'lü kademe, min. 5 adet)",key:'f500',ind:0},
+    bayi:{ad:"Bayi / kitabevi (1000'li kademe, min. 100 adet)",key:'f1000',ind:0},
+  };
+  const t=tiers[S.storeTier];
+  return `
+  <div class="sec-h"><div><h2>Fasilitatör Mağazası</h2>
+    <p class="lede" style="margin-top:5px">Fiyatlar kademe bazlıdır: yüzde indirim yerine gerçek fiyat kademesi uygulanır. Kademeyi değiştirerek farkı görebilirsiniz.</p></div></div>
+
+  <div class="field" style="max-width:420px"><label for="tierSel">Fiyat kademesi</label>
+    <select id="tierSel">${Object.entries(tiers).map(([k,v])=>`<option value="${k}" ${S.storeTier===k?'selected':''}>${esc(v.ad)}</option>`).join('')}</select></div>
+
+  <div class="grid" style="gap:9px">
+  ${GAMES.map(g=>{
+    const base=g.fiyat.f100;
+    const p=Math.round(g.fiyat[t.key]*(1-t.ind));
+    return `<div class="prod">
+      <div class="sw" style="background:${g.renk}"></div>
+      <div class="nm"><b>${esc(g.ad)}</b><span>${g.sinif}. sınıf · ${esc(g.meb)}</span></div>
+      <div class="pr">${p<base?`<del class="num">${tl(base)} ₺</del>`:''}<b class="num">${tl(p)} ₺</b></div>
+      <button class="btn sm" data-act="${esc(g.ad)} sepete eklendi.">Sepete ekle</button>
+    </div>`;
+  }).join('')}
+  <div class="prod">
+    <div class="sw" style="background:linear-gradient(135deg,var(--accent),var(--gold))"></div>
+    <div class="nm"><b>Print-and-Play PDF · tek oyun</b><span>Dijital · kargo yok · uluslararası kullanım</span></div>
+    <div class="pr"><b class="num">150 ₺</b></div>
+    <button class="btn sm" data-act="PDF sepete eklendi.">Sepete ekle</button>
+  </div>
+  <div class="prod">
+    <div class="sw" style="background:var(--surface-2);border:1px solid var(--line)"></div>
+    <div class="nm"><b>Ölçme-değerlendirme kiti</b><span>Kazanım karneleri · veli raporu şablonları</span></div>
+    <div class="pr"><b class="num">900 ₺</b></div>
+    <button class="btn sm" data-act="Kit sepete eklendi.">Sepete ekle</button>
+  </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="eyebrow" style="margin-bottom:9px">NX ile satın alma</div>
+    <div class="grid g2" style="gap:9px">
+      ${[['Materyal siparişinde 500 ₺ indirim',3000],['Turnuva ev sahipliği başvuru önceliği',5000],['Kademe 2 eğitiminde %20 indirim',8000],['Fasilitatör Zirvesi kontenjanı',12000]].map(([k,v])=>`
+        <div class="todo"><div class="ic" style="background:var(--accent-soft);color:var(--accent-ink)">◆</div>
+          <div class="t"><b style="font-size:13.5px">${k}</b><span class="mono">${tl(v)} NX</span></div>
+          <button class="btn ${S.nx>=v?'':'ghost'} sm" ${S.nx>=v?`data-spend="${v}" data-label="${esc(k)}"`:'disabled'}>${S.nx>=v?'Kullan':'Yetersiz'}</button></div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function pageYonetim(){
+  return `
+  <div class="sec-h"><div><span class="eyebrow">Master Fasilitatör görünümü</span><h2 style="margin-top:4px">Yönetim</h2>
+  <p class="lede" style="margin-top:5px">Ağın kalite kontrolü ve talep dağıtımı buradan yürür. Rapor onayı olmadan NX ödenmez; NX ödenmeyen ağ diri kalmaz.</p></div></div>
+
+  <div class="grid g3" style="margin-bottom:14px">
+    ${[['Onay kuyruğu','7','rapor bekliyor'],['Aktif fasilitatör','214','son 90 günde ≥1 rapor'],['Pasifleşme riski','31','60+ gündür rapor yok']].map(([k,v,d])=>`
+      <div class="card flat"><div class="eyebrow">${k}</div>
+      <div style="font-family:var(--f-display);font-size:28px;font-weight:700;line-height:1.1;margin:4px 0 2px" class="num">${v}</div>
+      <div style="font-size:12px;color:var(--muted)">${d}</div></div>`).join('')}
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="eyebrow" style="margin-bottom:10px">Rapor onay kuyruğu</div>
+    <div class="tscroll"><table>
+      <thead><tr><th>Fasilitatör</th><th>Oyun</th><th>Kurum</th><th>Kazanım</th><th>Rubrik</th><th></th></tr></thead>
+      <tbody>
+      ${[
+        ['Elif Karaca','Harmonia','Hendek Ş. Şükrü O.O.','MAT.6.2.2','3,2'],
+        ['Burak Demirtaş','Afrodisias','Nilüfer Bilim Koleji','MAT.7.1.7','3,8'],
+        ['Onur Yalçın','Salur Kazan','Kartal Cumhuriyet O.O.','MAT.7.2.4','2,6'],
+      ].map(([f,o,k,kz,r])=>`<tr><td>${f}</td><td>${o}</td><td style="color:var(--muted)">${k}</td><td class="mono">${kz}</td><td class="num">${r}</td>
+      <td style="text-align:right;white-space:nowrap"><button class="btn sm" data-act="${f} raporu onaylandı · 300 NX ödendi.">Onayla</button></td></tr>`).join('')}
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:9px">Talep yönlendirme</div>
+      <div class="grid" style="gap:8px">
+        <div class="todo"><div class="ic" style="background:var(--ok-soft);color:var(--ok)">🏫</div>
+          <div class="t"><b style="font-size:13.5px">Bahçeşehir Koleji İzmit</b><span>Kocaeli · 6. sınıf · okul lisansı talebi</span></div>
+          <button class="btn sm" data-act="Talep Mehmet Arıcan'a (Kocaeli, Kademe 2) atandı.">Ata</button></div>
+        <div class="todo"><div class="ic" style="background:var(--warn-soft);color:var(--warn)">⚠</div>
+          <div class="t"><b style="font-size:13.5px">Özbekistan / Taşkent</b><span>Bölgede aktif fasilitatör yok</span></div>
+          <button class="btn ghost sm" data-act="Country Lead arama listesine eklendi.">Listeye al</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:9px">Kalite uyarıları</div>
+      <div class="grid" style="gap:8px">
+        <div class="todo"><div class="ic" style="background:var(--crit-soft);color:var(--crit)">!</div>
+          <div class="t"><b style="font-size:13.5px">Onur Yalçın · rubrik 2,6</b><span>3,0 eşiğinin altında · mentor ataması önerilir</span></div>
+          <button class="btn ghost sm" data-act="Mentor ataması yapıldı.">Mentor ata</button></div>
+        <div class="todo"><div class="ic" style="background:var(--surface-2);color:var(--muted)">◷</div>
+          <div class="t"><b style="font-size:13.5px">31 fasilitatör pasifleşme riskinde</b><span>Yenileme koşulu hatırlatması gönderilmedi</span></div>
+          <button class="btn ghost sm" data-act="31 fasilitatöre hatırlatma gönderildi.">Hatırlat</button></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------------- render ---------------- */
+function renderNav(){
+  const pn=$('#pubnavIn');
+  if(S.mode==='site'){
+    $('#pubnav').hidden=false;
+    pn.innerHTML=PUB.map(([k,l])=>`<button data-go="${k}" ${S.page===k?'aria-current="page"':''}>${l}</button>`).join('');
+  } else {
+    $('#pubnav').hidden=true;
+  }
+  $('#mSite').setAttribute('aria-pressed',S.mode==='site');
+  $('#mPanel').setAttribute('aria-pressed',S.mode==='panel');
+  $('#nxChip').hidden = S.mode!=='panel';
+  $('#nxVal').textContent=tl(S.nx);
+}
+
+function render(){
+  renderNav();
+  const app=$('#app');
+  if(S.mode==='site'){
+    const map={ana:pageAna,oyunlar:pageOyunlar,fasilitator:pageFasilitator,dizin:pageDizin,lig:pageLigPublic};
+    app.innerHTML = (map[S.page]||pageAna)() + `<footer class="site">EPNEXUS · Education Phygital Games · Prototip sürümü — demo verisiyle doldurulmuştur. Oyun içerikleri ve fiyatlar EPNEXUS Ürün Kataloğu (Ağustos 2026) kaynaklıdır.</footer>`;
+  } else {
+    const map={dash:pageDash,akademi:pageAkademi,rapor:pageRapor,atolye:pageAtolye,rozet:pageRozet,liglig:pageLigPanel,magaza:pageMagaza,yonetim:pageYonetim};
+    app.innerHTML = `<div class="panel-layout">
+      <nav class="sidenav">${PAN.map(([k,i,l])=>`<button data-pgo="${k}" ${S.ppage===k?'aria-current="page"':''}><span class="ic">${i}</span>${l}</button>`).join('')}</nav>
+      <div>${(map[S.ppage]||pageDash)()}</div>
+    </div>`;
+  }
+  const key = S.mode+'/'+(S.mode==='site'?S.page:S.ppage);
+  if(render._last !== key){ window.scrollTo({top:0,behavior:'instant'}); render._last = key; }
+}
+
+/* ---------------- events ---------------- */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-go],[data-pgo],[data-mod],[data-act],[data-lt],[data-mt],[data-tas],[data-spend],[data-enroll]');
+  if(!t) return;
+
+  if(t.dataset.tas){
+    const keys=['kart','proto','kural','test','rev'];
+    S.tasarim[keys[+t.dataset.tas]]=true; render(); toast('Adım tamamlandı.'); return;
+  }
+
+  if(t.dataset.go){ S.mode='site'; S.page=t.dataset.go; render(); return; }
+  if(t.dataset.pgo){ S.mode='panel'; S.ppage=t.dataset.pgo; render(); return; }
+  if(t.dataset.lt){ S.leagueTab=t.dataset.lt; render(); return; }
+  if(t.dataset.mt){ S.modTab=t.dataset.mt; render(); return; }
+
+  if(t.dataset.mod){
+    const k=t.dataset.mod;
+    if(!S.doneModules.includes(k)){
+      S.doneModules.push(k);
+      addNX(100,k+' tamamlandı.');
+      render();
+    }
+    return;
+  }
+  if(t.dataset.spend){
+    const v=+t.dataset.spend;
+    if(S.nx>=v){ S.nx-=v; $('#nxVal').textContent=tl(S.nx); toast(t.dataset.label+' — '+tl(v)+' NX düşüldü.'); render(); }
+    return;
+  }
+  if(t.dataset.enroll){
+    S.mode='panel'; S.ppage='akademi'; render();
+    toast(t.dataset.enroll+' başvurusu — akademiye yönlendirildiniz.');
+    return;
+  }
+  if(t.dataset.act){ toast(t.dataset.act); return; }
+});
+
+document.addEventListener('change',e=>{
+  if(e.target.id==='tierSel'){ S.storeTier=e.target.value; render(); }
+});
+
+document.addEventListener('submit',e=>e.preventDefault());
+
+$('#app').addEventListener('click',e=>{
+  if(e.target.id==='tasGonder'){
+    S.tasarim.gonderildi=true; render(); addNX(500,'Varyantınız jüriye gönderildi.');
+    setTimeout(()=>{ toast('Jüri kabul etti — havuza 🌱 Tohum düzeyinde eklendi.'); },3000);
+    return;
+  }
+  if(e.target.id!=='rSubmit') return;
+  const oyun=$('#rOyun').value, okul=$('#rOkul').value.trim()||'—', sinif=$('#rSinif').value.trim()||'—', kisi=+$('#rKisi').value||0;
+  const d=new Date();
+  S.reports.unshift({oyun,okul,sinif,kisi,tarih:d.toLocaleDateString('tr-TR'),durum:'bekliyor'});
+  render();
+  toast('Rapor gönderildi — Master onayı bekliyor.');
+  setTimeout(()=>{
+    const r=S.reports.find(x=>x.durum==='bekliyor'&&x.oyun===oyun);
+    if(r){ r.durum='onayli'; addNX(300,'Raporunuz onaylandı.'); if(S.ppage==='rapor') render(); }
+  },2600);
+});
+
+$('#mSite').onclick=()=>{S.mode='site';render()};
+$('#mPanel').onclick=()=>{S.mode='panel';render()};
+$('#themeBtn').onclick=()=>{
+  const cur=document.documentElement.getAttribute('data-theme');
+  const sysDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const next = cur ? (cur==='dark'?'light':'dark') : (sysDark?'light':'dark');
+  document.documentElement.setAttribute('data-theme',next);
+};
+
+render();
+</script>
+</body>
+</html>

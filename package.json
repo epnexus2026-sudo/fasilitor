@@ -1,0 +1,17 @@
+{
+  "name": "epnexus-fasilitator-agi",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EPNEXUS Fasilitatör Ağı — sertifikasyon, NX puan sistemi, uygulama raporu akışı, Oyun Havuzu ve lig platformu",
+  "workspaces": ["apps/api"],
+  "scripts": {
+    "dev": "npm run dev --workspace @epnexus/api",
+    "build": "npm run build --workspace @epnexus/api",
+    "start": "npm run start --workspace @epnexus/api",
+    "test": "npm run test --workspace @epnexus/api",
+    "seed": "npm run seed --workspace @epnexus/api",
+    "typecheck": "npm run typecheck --workspace @epnexus/api"
+  },
+  "engines": { "node": ">=22.5.0" },
+  "license": "UNLICENSED"
+}

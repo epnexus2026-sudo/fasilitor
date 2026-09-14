@@ -1,0 +1,189 @@
+/* EPNEXUS Fasilitatör Ağı — arayüz stilleri.
+   Renk paleti platform prototipinden (docs/05_Web_Prototipleri) alınmıştır. */
+:root {
+  --ground: #EFF1EE;
+  --surface: #FFFFFF;
+  --surface-2: #F7F8F6;
+  --ink: #14201D;
+  --ink-2: #3B4A46;
+  --muted: #697773;
+  --line: #D9DEDA;
+  --line-soft: #E7EBE7;
+  --accent: #0D6157;
+  --accent-soft: #DCEBE7;
+  --accent-ink: #094840;
+  --gold: #A8751B;
+  --gold-soft: #F5EAD3;
+  --ok: #2F7A4D;
+  --ok-soft: #E0F0E5;
+  --warn: #A8681A;
+  --warn-soft: #F8EBD7;
+  --crit: #A93C2E;
+  --crit-soft: #F8E3DF;
+  --shadow: 0 1px 2px rgba(20,32,29,.06), 0 8px 24px -12px rgba(20,32,29,.18);
+  --r: 10px;
+  --r-lg: 16px;
+  --f-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --f-body: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="light"]) {
+    --ground: #0E1614; --surface: #16211E; --surface-2: #1B2724;
+    --ink: #E8EDEA; --ink-2: #B9C5C1; --muted: #8A9995;
+    --line: #2A3936; --line-soft: #223330;
+    --accent: #4FBFA9; --accent-soft: #14312C; --accent-ink: #8FDCCB;
+    --gold: #D9A94A; --gold-soft: #33270F;
+    --ok: #5FC286; --ok-soft: #14301F;
+    --warn: #D9A04A; --warn-soft: #332812;
+    --crit: #E08476; --crit-soft: #3A211C;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -.01em; margin: 0 0 8px; }
+h1 { font-size: 30px; } h2 { font-size: 22px; } h3 { font-size: 17px; }
+a { color: var(--accent); }
+code, .mono { font-family: var(--f-mono); font-size: .92em; }
+
+/* ---------------------------------------------------------------- yerleşim */
+.kabuk { max-width: 1120px; margin: 0 auto; padding: 0 16px 64px; }
+
+header.ust {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.ust-ic {
+  max-width: 1120px; margin: 0 auto; padding: 10px 16px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.marka { font-family: var(--f-display); font-weight: 700; font-size: 18px; color: var(--ink); text-decoration: none; }
+.marka span { color: var(--accent); }
+.ust-bosluk { flex: 1; }
+
+nav.sekmeler { display: flex; gap: 2px; overflow-x: auto; padding: 8px 0 0; }
+nav.sekmeler button {
+  border: 0; background: transparent; color: var(--muted);
+  font: inherit; font-size: 14px; padding: 8px 12px; border-radius: var(--r) var(--r) 0 0;
+  cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent;
+}
+nav.sekmeler button:hover { color: var(--ink); background: var(--surface-2); }
+nav.sekmeler button[aria-selected="true"] { color: var(--accent-ink); border-bottom-color: var(--accent); font-weight: 600; }
+
+/* ------------------------------------------------------------------ kartlar */
+.kart {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: 18px; box-shadow: var(--shadow);
+}
+.kart + .kart { margin-top: 14px; }
+.izgara { display: grid; gap: 14px; }
+.izgara.iki { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.izgara.uc { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.izgara.dort { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+
+.olcum { background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: var(--r); padding: 14px; }
+.olcum .deger { font-family: var(--f-display); font-size: 26px; font-weight: 600; line-height: 1.1; }
+.olcum .etiket { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+.olcum .hedef { color: var(--muted); font-size: 12px; margin-top: 6px; }
+
+/* -------------------------------------------------------------------- öğeler */
+.rozet {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  background: var(--accent-soft); color: var(--accent-ink); border: 1px solid transparent;
+}
+.rozet.ok { background: var(--ok-soft); color: var(--ok); }
+.rozet.warn { background: var(--warn-soft); color: var(--warn); }
+.rozet.crit { background: var(--crit-soft); color: var(--crit); }
+.rozet.gold { background: var(--gold-soft); color: var(--gold); }
+.rozet.sade { background: var(--surface-2); color: var(--muted); border-color: var(--line); }
+
+button.dugme, .dugme {
+  font: inherit; font-size: 14px; font-weight: 600;
+  padding: 9px 16px; border-radius: var(--r); cursor: pointer;
+  background: var(--accent); color: #fff; border: 1px solid var(--accent);
+  text-decoration: none; display: inline-block; text-align: center;
+}
+button.dugme:hover, .dugme:hover { background: var(--accent-ink); }
+button.dugme:disabled { opacity: .5; cursor: not-allowed; }
+button.dugme.ikincil, .dugme.ikincil { background: var(--surface); color: var(--ink); border-color: var(--line); }
+button.dugme.ikincil:hover { background: var(--surface-2); }
+button.dugme.kucuk { padding: 5px 11px; font-size: 13px; }
+
+label { display: block; font-size: 13px; font-weight: 600; color: var(--ink-2); margin: 10px 0 4px; }
+input, select, textarea {
+  width: 100%; font: inherit; font-size: 14px; padding: 9px 11px;
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--surface); color: var(--ink);
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+textarea { min-height: 84px; resize: vertical; }
+.satir { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+.satir > * { flex: 1; min-width: 150px; }
+.onay { display: flex; align-items: center; gap: 8px; font-weight: 400; }
+.onay input { width: auto; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line-soft); }
+th { color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+tr.ben td { background: var(--accent-soft); }
+.sagda { text-align: right; }
+
+.uyari {
+  padding: 11px 14px; border-radius: var(--r); font-size: 13.5px;
+  background: var(--warn-soft); color: var(--warn); border: 1px solid transparent; margin: 10px 0;
+}
+.uyari.crit { background: var(--crit-soft); color: var(--crit); }
+.uyari.ok { background: var(--ok-soft); color: var(--ok); }
+.uyari.bilgi { background: var(--accent-soft); color: var(--accent-ink); }
+
+.kucuk-not { color: var(--muted); font-size: 12.5px; }
+.dayanak { color: var(--muted); font-size: 12px; font-style: italic; margin-top: 8px; }
+
+.cubuk { height: 7px; background: var(--line-soft); border-radius: 999px; overflow: hidden; margin: 7px 0; }
+.cubuk > i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+
+.merdiven { display: grid; gap: 8px; }
+.basamak {
+  display: flex; gap: 12px; align-items: baseline;
+  padding: 11px 14px; border-radius: var(--r);
+  background: var(--surface-2); border: 1px solid var(--line-soft);
+}
+.basamak.simdi { background: var(--accent-soft); border-color: var(--accent); }
+.basamak .kd { font-family: var(--f-mono); font-size: 12px; color: var(--muted); min-width: 34px; }
+
+.bos { text-align: center; color: var(--muted); padding: 28px 10px; font-size: 14px; }
+
+#bildirim {
+  position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px);
+  background: var(--ink); color: var(--ground); padding: 11px 20px; border-radius: 999px;
+  font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none;
+  transition: opacity .18s, transform .18s; z-index: 50; max-width: 90vw;
+}
+#bildirim.acik { opacity: 1; transform: translateX(-50%) translateY(0); }
+#bildirim.hata { background: var(--crit); color: #fff; }
+
+.giris-kutu { max-width: 420px; margin: 56px auto; }
+.demo-hesaplar { font-size: 13px; color: var(--muted); margin-top: 14px; line-height: 1.8; }
+.demo-hesaplar code { background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+
+@media (max-width: 640px) {
+  h1 { font-size: 24px; }
+  .kabuk { padding: 0 16px 48px; }
+  table { font-size: 13px; }
+  th, td { padding: 7px 6px; }
+}

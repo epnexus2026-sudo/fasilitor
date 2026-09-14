@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  dogrula:
+    name: Tip denetimi, test ve derleme
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Bağımlılıkları kur
+        run: npm ci
+
+      - name: Tip denetimi
+        run: npm run typecheck
+
+      - name: Testler
+        run: npm test
+
+      - name: Derleme
+        run: npm run build
+
+      - name: Demo verisi yüklenebiliyor mu
+        run: npm run seed
+        env:
+          EPNEXUS_DB: ${{ runner.temp }}/ci.db
