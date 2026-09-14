@@ -25,11 +25,13 @@ bağımlılıkları kurulur.
 ```bash
 npm install          # yalnız typescript + @types/node
 npm run seed         # demo verisi (Kurucu Kohort senaryosu)
-npm run build        # TypeScript → dist
-npm start            # http://localhost:4000
+npm start            # derler ve başlatır → http://localhost:4000
 ```
 
-Geliştirme için: `npm run dev` (TypeScript'i doğrudan çalıştırır, dosya izler).
+`npm start` derlemeyi kendisi yapar (`prestart`); ayrıca `npm run build` çalıştırmanız
+gerekmez. Geliştirme için `npm run dev` — TypeScript'i doğrudan çalıştırır ve dosya izler.
+
+Windows'ta hiç terminal kullanmadıysanız: `KURULUM.md` sıfırdan anlatır.
 
 Demo hesaplar (parola `epnexus2026`):
 
